@@ -26,3 +26,7 @@ Configuration
           friendly_name: Wohnzimmer Temperatur
           type: temperature
           id: 60
+        wohnzimmer_humidity:
+          friendly_name: Wohnzimmer Luftfeuchtigkeit
+          type: humidity
+          id: 60
