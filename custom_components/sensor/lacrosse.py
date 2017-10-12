@@ -140,6 +140,7 @@ class LaCrosse(Entity):
         low_battery = self._low_battery
         if low_battery is not None:
             attributes['low_battery'] = low_battery
+        return attributes
 
     def _callback_lacrosse(self, lacrosse_sensor):
         # auto-expire enabled?
