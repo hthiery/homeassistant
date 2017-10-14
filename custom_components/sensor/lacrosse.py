@@ -199,7 +199,33 @@ class LaCrosseHumidity(LaCrosse):
         return DEFAULT_HUMIDITY_ICON
 
 
+class LaCrosseBattery(LaCrosse):
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+        if self._low_battery is None:
+            state = 'na/a'
+        elif self._low_battery is True:
+            state = 'low'
+        else:
+            state = 'ok'
+        return state
+
+    @property
+    def icon(self):
+        """Icon to use in the frontend."""
+        if self._low_battery is None:
+            icon = 'mdi:battery-unknown'
+        elif self._low_battery is True:
+            icon = 'mdi:battery-alert'
+        else:
+            icon = 'mdi:battery'
+        return icon
+
+
 TYPE_CLASSES = {                                                                 
     "temperature": LaCrosseTemperature,
-    "humidity": LaCrosseHumidity
+    "humidity": LaCrosseHumidity,
+    "battery": LaCrosseBattery
 }
