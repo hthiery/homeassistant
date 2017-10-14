@@ -177,7 +177,7 @@ class LaCrosseTemperature(LaCrosse):
 
     @property
     def state(self):
-        """Return the state of the sensor."""                                     
+        """Return the state of the sensor."""
         return self._temperature
 
 
@@ -190,7 +190,7 @@ class LaCrosseHumidity(LaCrosse):
 
     @property
     def state(self):
-        """Return the state of the sensor."""                                     
+        """Return the state of the sensor."""
         return self._humidity
 
     @property
