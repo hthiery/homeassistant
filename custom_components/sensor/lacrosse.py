@@ -32,6 +32,7 @@ DEFAULT_DEVICE = '/dev/ttyUSB0'
 DEFAULT_BAUD = '57600'
 DEFAULT_SCAN_INTERVAL = 300
 DEFAULT_EXPIRE_AFTER = 300
+DEFAULT_HUMIDITY_ICON = 'mdi:water-percent'
 
 TYPES = ['humidity', 'temperature']
 
@@ -193,6 +194,11 @@ class LaCrosseHumidity(LaCrosse):
     def state(self):
         """Return the state of the sensor."""                                     
         return self._humidity
+
+    @property
+    def icon(self):
+        """Icon to use in the frontend."""
+        return DEFAULT_HUMIDITY_ICON
 
 
 TYPE_CLASSES = {                                                                 
