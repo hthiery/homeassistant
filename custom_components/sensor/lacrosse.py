@@ -11,7 +11,7 @@ from homeassistant.core import callback
 from homeassistant.components.sensor import ENTITY_ID_FORMAT
 import homeassistant.helpers.config_validation as cv
 from homeassistant.const import (
-    ATTR_FRIENDLY_NAME, EVENT_HOMEASSISTANT_STOP, CONF_DEVICE,
+    EVENT_HOMEASSISTANT_STOP, CONF_DEVICE, CONF_FRIENDLY_NAME,
     CONF_SCAN_INTERVAL, CONF_SENSORS, STATE_UNKNOWN, TEMP_CELSIUS)
 from homeassistant.helpers.entity import Entity, async_generate_entity_id
 from homeassistant.helpers.event import async_track_point_in_utc_time
@@ -39,6 +39,7 @@ TYPES = ['humidity', 'temperature']
 SENSOR_SCHEMA = vol.Schema({
     vol.Required(CONF_TYPE): vol.In(TYPES),
     vol.Required(CONF_ID): cv.positive_int,
+    vol.Optional(CONF_FRIENDLY_NAME): cv.string,
     vol.Optional(CONF_EXPIRE_AFTER): cv.positive_int,
 })
 
@@ -52,7 +53,7 @@ lacrosse = None
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup the LaCrosse component."""
 
-    from serial import Serial
+    from serial import SerialException
 
     usb_device = config.get(CONF_DEVICE, DEFAULT_DEVICE)
     baud = int(config.get(CONF_BAUD, DEFAULT_BAUD))
@@ -64,7 +65,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     try:
         lacrosse = pylacrosse.LaCrosse(usb_device, baud)
         lacrosse.open()
-    except SerialExecption as e:
+    except SerialException as e:
         _LOGGER.exception("Unable to open serial port for LaCrosse: %s", e)
         return False
 
@@ -80,7 +81,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
         except KeyError:
             _LOGGER.exception("Unknown LaCrosse sensor type: %s", typ)
 
-        friendly_name = device_config.get(ATTR_FRIENDLY_NAME, device)
+        friendly_name = device_config.get(CONF_FRIENDLY_NAME, device)
 
         sensors.append(
             sensor_class(
@@ -93,23 +94,37 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
             )
         ) 
 
+
     if not sensors:
         _LOGGER.error("No sensors added")
         return False
 
     add_devices(sensors)
 
-
 def close_serial_port(*args):
     """Close the serial port uesed for the lacrosse."""
     lacrosse.close()
 
 
-class LaCrosse(Entity):
+class LaCrosse(object):
+
+    def __init__(self, hass, lacrosse, expire_after, config):
+        self._hass = hass
+        self._lacrosse = lacrosse
+        self._config = config
+
+        lacrosse.register_all(self.callback_lacrosse)
+
+    def callback_lacrosse(lacrosse_sensor):
+        pass
+
+
+class LaCrosseSensor(Entity):
 
     _temperature = None
     _humidity = None
     _low_battery = None
+    _new_battery = None
 
     def __init__(self, hass, lacrosse, device_id, friendly_name,
             expire_after, config):
@@ -122,7 +137,7 @@ class LaCrosse(Entity):
         self._expire_after = expire_after
         self._expiration_trigger = None
 
-        lacrosse.register_callback(self._config["id"], self._callback_lacrosse)
+        lacrosse.register_callback(int(self._config["id"]), self._callback_lacrosse, None)
 
     @property
     def name(self):
@@ -139,10 +154,12 @@ class LaCrosse(Entity):
         """Return the state attributes."""
         attributes = {}
         attributes['low_battery'] = self._low_battery
+        attributes['new_battery'] = self._new_battery
         return attributes
 
-    def _callback_lacrosse(self, lacrosse_sensor):
+    def _callback_lacrosse(self, lacrosse_sensor, user_data):
         # auto-expire enabled?
+
         if self._expire_after is not None and self._expire_after > 0:
             # Reset old trigger
             if self._expiration_trigger:
@@ -159,6 +176,7 @@ class LaCrosse(Entity):
         self._temperature = lacrosse_sensor.temperature
         self._humidity = lacrosse_sensor.humidity
         self._low_battery = lacrosse_sensor.low_battery
+        self._new_battery = lacrosse_sensor.new_battery
 
     @callback
     def value_is_expired(self, *_):
@@ -168,7 +186,7 @@ class LaCrosse(Entity):
         self.async_schedule_update_ha_state()
 
 
-class LaCrosseTemperature(LaCrosse):
+class LaCrosseTemperature(LaCrosseSensor):
 
     @property
     def unit_of_measurement(self):
@@ -181,7 +199,7 @@ class LaCrosseTemperature(LaCrosse):
         return self._temperature
 
 
-class LaCrosseHumidity(LaCrosse):
+class LaCrosseHumidity(LaCrosseSensor):
 
     @property
     def unit_of_measurement(self):
@@ -199,7 +217,7 @@ class LaCrosseHumidity(LaCrosse):
         return DEFAULT_HUMIDITY_ICON
 
 
-class LaCrosseBattery(LaCrosse):
+class LaCrosseBattery(LaCrosseSensor):
 
     @property
     def state(self):
