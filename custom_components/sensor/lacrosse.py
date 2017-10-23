@@ -30,11 +30,9 @@ CONF_EXPIRE_AFTER = 'expire_after'
 
 DEFAULT_DEVICE = '/dev/ttyUSB0'
 DEFAULT_BAUD = '57600'
-DEFAULT_SCAN_INTERVAL = 300
 DEFAULT_EXPIRE_AFTER = 300
-DEFAULT_HUMIDITY_ICON = 'mdi:water-percent'
 
-TYPES = ['humidity', 'temperature']
+TYPES = ['battery', 'humidity', 'temperature']
 
 SENSOR_SCHEMA = vol.Schema({
     vol.Required(CONF_TYPE): vol.In(TYPES),
@@ -42,11 +40,6 @@ SENSOR_SCHEMA = vol.Schema({
     vol.Optional(CONF_FRIENDLY_NAME): cv.string,
     vol.Optional(CONF_EXPIRE_AFTER): cv.positive_int,
 })
-
-#PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
-#    vol.Required(CONF_TYPE): vol.In(TYPES),
-#    vol.Required(CONF_ID): cv.positive_int
-#})
 
 lacrosse = None
 
@@ -57,7 +50,6 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 
     usb_device = config.get(CONF_DEVICE, DEFAULT_DEVICE)
     baud = int(config.get(CONF_BAUD, DEFAULT_BAUD))
-    scan_interval = config.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)
     expire_after = config.get(CONF_EXPIRE_AFTER, DEFAULT_EXPIRE_AFTER)
 
     _LOGGER.debug("%s %s" % (usb_device, baud))
@@ -214,7 +206,7 @@ class LaCrosseHumidity(LaCrosseSensor):
     @property
     def icon(self):
         """Icon to use in the frontend."""
-        return DEFAULT_HUMIDITY_ICON
+        return 'mdi:water-percent'
 
 
 class LaCrosseBattery(LaCrosseSensor):
