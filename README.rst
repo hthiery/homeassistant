@@ -45,6 +45,7 @@ Configuration
 '''''''''''''
 
 .. code-block:: yaml
+
     fritzhome:
       host: <FRITZBOX-IP>
       username: <SMARTHOME-USER>
