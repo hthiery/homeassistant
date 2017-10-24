@@ -1,9 +1,9 @@
-HomeAssistant LaCrosse Sensor Component
-=======================================
+HomeAssistant Custom Component
+==============================
 
 Installation
 ------------
-1. First, copy all the files into the Home Assistant location. It can now be installed either to the custom_components folder 
+1. First, copy all the files into the Home Assistant location. It can now be installed either to the custom_components folder
 
 .. code-block::
 
@@ -15,8 +15,14 @@ or the root folder (using virtual environment)
 
     /srv/homeassistant/homeassistant_venv/lib/python3.4/site-packages/homeassistant/components
 
+Components
+----------
+
+LaCrosse
+````````
+
 Configuration
--------------
+'''''''''''''
 
 .. code-block:: yaml
 
@@ -30,3 +36,22 @@ Configuration
           friendly_name: Wohnzimmer Luftfeuchtigkeit
           type: humidity
           id: 60
+
+
+Fritzhome
+`````````
+
+Configuration
+'''''''''''''
+
+.. code-block:: yaml
+    fritzhome:
+      host: <FRITZBOX-IP>
+      username: <SMARTHOME-USER>
+      password: <SMARTHOME-PASSWORD>
+
+    climate:
+      platform: fritzhome
+
+    switch:
+      - platform: fritzhome
