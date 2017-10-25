@@ -121,10 +121,10 @@ class LaCrosseSensor(Entity):
     def __init__(self, hass, lacrosse, device_id, friendly_name,
             expire_after, config):
         self.hass = hass
-        self.entity_id = async_generate_entity_id(ENTITY_ID_FORMAT, device_id,   
+        self.entity_id = async_generate_entity_id(ENTITY_ID_FORMAT, device_id,
                                                       hass=hass)
-        self._config = config 
-        self._name = friendly_name 
+        self._config = config
+        self._name = friendly_name
         self._value = STATE_UNKNOWN
         self._expire_after = expire_after
         self._expiration_trigger = None
@@ -133,7 +133,7 @@ class LaCrosseSensor(Entity):
 
     @property
     def name(self):
-        """Return the name of the sensor."""                                     
+        """Return the name of the sensor."""
         return self._name
 
 
@@ -141,7 +141,7 @@ class LaCrosseSensor(Entity):
         """Get the latest data."""
         pass
 
-    @property                                                                    
+    @property
     def device_state_attributes(self):
         """Return the state attributes."""
         attributes = {}
@@ -196,7 +196,7 @@ class LaCrosseHumidity(LaCrosseSensor):
     @property
     def unit_of_measurement(self):
         """Return the unit of measurement."""
-        return '%' 
+        return '%'
 
     @property
     def state(self):
