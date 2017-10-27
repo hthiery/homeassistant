@@ -8,11 +8,11 @@ from datetime import timedelta
 import voluptuous as vol
 
 from homeassistant.core import callback
-from homeassistant.components.sensor import ENTITY_ID_FORMAT
+from homeassistant.components.sensor import (ENTITY_ID_FORMAT, PLATFORM_SCHEMA)
 import homeassistant.helpers.config_validation as cv
 from homeassistant.const import (
-    EVENT_HOMEASSISTANT_STOP, CONF_DEVICE, CONF_FRIENDLY_NAME,
-    CONF_SCAN_INTERVAL, CONF_SENSORS, STATE_UNKNOWN, TEMP_CELSIUS)
+    EVENT_HOMEASSISTANT_STOP, CONF_DEVICE, CONF_FRIENDLY_NAME, CONF_ID,
+    CONF_SCAN_INTERVAL, CONF_SENSORS, CONF_TYPE, STATE_UNKNOWN, TEMP_CELSIUS)
 from homeassistant.helpers.entity import Entity, async_generate_entity_id
 from homeassistant.helpers.event import async_track_point_in_utc_time
 from homeassistant.util import dt as dt_util
@@ -24,8 +24,6 @@ _LOGGER = logging.getLogger(__name__)
 DOMAIN = 'lacrosse'
 
 CONF_BAUD = 'baud'
-CONF_TYPE = 'type'
-CONF_ID = 'id'
 CONF_EXPIRE_AFTER = 'expire_after'
 
 DEFAULT_DEVICE = '/dev/ttyUSB0'
@@ -33,6 +31,11 @@ DEFAULT_BAUD = '57600'
 DEFAULT_EXPIRE_AFTER = 300
 
 TYPES = ['battery', 'humidity', 'temperature']
+
+PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
+    vol.Optional(CONF_DEVICE, default=DEFAULT_DEVICE): cv.string,
+    vol.Optional(CONF_BAUD, default=DEFAULT_BAUD): cv.string,
+})
 
 SENSOR_SCHEMA = vol.Schema({
     vol.Required(CONF_TYPE): vol.In(TYPES),
@@ -84,7 +87,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
                 expire_after,
                 device_config
             )
-        ) 
+        )
 
 
     if not sensors:
@@ -98,20 +101,8 @@ def close_serial_port(*args):
     lacrosse.close()
 
 
-class LaCrosse(object):
-
-    def __init__(self, hass, lacrosse, expire_after, config):
-        self._hass = hass
-        self._lacrosse = lacrosse
-        self._config = config
-
-        lacrosse.register_all(self.callback_lacrosse)
-
-    def callback_lacrosse(lacrosse_sensor):
-        pass
-
-
 class LaCrosseSensor(Entity):
+    """Implementation of a Lacrosse sensor."""
 
     _temperature = None
     _humidity = None
@@ -129,7 +120,8 @@ class LaCrosseSensor(Entity):
         self._expire_after = expire_after
         self._expiration_trigger = None
 
-        lacrosse.register_callback(int(self._config["id"]), self._callback_lacrosse, None)
+        lacrosse.register_callback(int(self._config["id"]),
+            self._callback_lacrosse, None)
 
     @property
     def name(self):
@@ -150,6 +142,7 @@ class LaCrosseSensor(Entity):
         return attributes
 
     def _callback_lacrosse(self, lacrosse_sensor, user_data):
+        """Callback function that is called from pylacrosse with new values."""
         # auto-expire enabled?
 
         if self._expire_after is not None and self._expire_after > 0:
@@ -179,6 +172,7 @@ class LaCrosseSensor(Entity):
 
 
 class LaCrosseTemperature(LaCrosseSensor):
+    """Implementation of a Lacrosse temperature sensor."""
 
     @property
     def unit_of_measurement(self):
@@ -192,6 +186,7 @@ class LaCrosseTemperature(LaCrosseSensor):
 
 
 class LaCrosseHumidity(LaCrosseSensor):
+    """Implementation of a Lacrosse humidity sensor."""
 
     @property
     def unit_of_measurement(self):
@@ -210,6 +205,7 @@ class LaCrosseHumidity(LaCrosseSensor):
 
 
 class LaCrosseBattery(LaCrosseSensor):
+    """Implementation of a Lacrosse battery sensor."""
 
     @property
     def state(self):
