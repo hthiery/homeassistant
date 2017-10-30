@@ -13,8 +13,8 @@ from homeassistant.core import callback
 from homeassistant.components.sensor import (ENTITY_ID_FORMAT, PLATFORM_SCHEMA)
 import homeassistant.helpers.config_validation as cv
 from homeassistant.const import (
-    EVENT_HOMEASSISTANT_STOP, CONF_DEVICE, CONF_DEVICES, CONF_FRIENDLY_NAME,
-    CONF_ID, CONF_SENSORS, CONF_TYPE, STATE_UNKNOWN, TEMP_CELSIUS)
+    EVENT_HOMEASSISTANT_STOP, CONF_DEVICE, CONF_FRIENDLY_NAME, CONF_ID,
+    CONF_SENSORS, CONF_TYPE, STATE_UNKNOWN, TEMP_CELSIUS)
 from homeassistant.helpers.entity import Entity, async_generate_entity_id
 from homeassistant.helpers.event import async_track_point_in_utc_time
 from homeassistant.util import dt as dt_util
@@ -68,7 +68,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, lacrosse.close)
 
     sensors = []
-    for device, device_config in config[CONF_SENSORS][CONF_DEVICES].items():
+    for device, device_config in config[CONF_SENSORS].items():
         _LOGGER.debug("%s %s", device, device_config)
 
         typ = device_config.get(CONF_TYPE)
