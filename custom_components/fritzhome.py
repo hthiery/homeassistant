@@ -1,6 +1,13 @@
-import asyncio
+"""
+Support for AVM Fritz!Box fritzhome devices.
+
+For more details about this component, please refer to the documentation at
+http://home-assistant.io/components/fritzhome/
+"""
 import logging
+
 import voluptuous as vol
+
 from homeassistant.helpers import discovery
 import homeassistant.helpers.config_validation as cv
 from homeassistant.const import (CONF_HOST, CONF_PASSWORD, CONF_USERNAME,
@@ -8,7 +15,7 @@ from homeassistant.const import (CONF_HOST, CONF_PASSWORD, CONF_USERNAME,
 
 _LOGGER = logging.getLogger(__name__)
 
-REQUIREMENTS = ['pyfritzhome']
+REQUIREMENTS = ['pyfritzhome==0.2.4']
 
 DATA_FRITZHOME = 'fritzhome_api'
 SUPPORTED_DOMAINS = ['climate', 'switch']
@@ -16,6 +23,10 @@ SUPPORTED_DOMAINS = ['climate', 'switch']
 DOMAIN = 'fritzhome'
 
 DEFAULT_HOST = 'fritz.box'
+
+ATTR_FW_VERSION = 'firmware_verson'
+ATTR_MANUFACTURER = 'manufacturer'
+ATTR_PRODUCTNAME = 'product_name'
 
 
 CONFIG_SCHEMA = vol.Schema({
@@ -28,11 +39,11 @@ CONFIG_SCHEMA = vol.Schema({
 
 
 def setup(hass, config):
-    """Setup the fritzhome component."""
-
+    """Set up the fritzhome component."""
     from pyfritzhome import Fritzhome, LoginError
+
     conf = config[DOMAIN]
-    host = conf.get(CONF_HOST, DEFAULT_HOST)
+    host = conf.get(CONF_HOST)
     username = conf.get(CONF_USERNAME)
     password = conf.get(CONF_PASSWORD)
 
@@ -41,20 +52,11 @@ def setup(hass, config):
         fritz.login()
         hass.data[DATA_FRITZHOME] = fritz
     except LoginError:
-        _LOGGER.error("Login to Fritz!Box failed")
+        _LOGGER.warning("Login to Fritz!Box failed")
         return False
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP,
-                         logout)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, fritz.logout)
 
-    devices = fritz.get_devices()
-    for device in devices:
-        _LOGGER.warning(device.name)
-
-    _LOGGER.warning('connected to fritzbox')
+    _LOGGER.info('Connected to fritzbox')
 
     return True
-
-def logout():
-    """Close the session to the fritzbox."""
-    pass

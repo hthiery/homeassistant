@@ -1,11 +1,18 @@
+"""
+Support for AVM Fritz!Box fritzhome thermostate devices.
+
+For more details about this component, please refer to the documentation at
+http://home-assistant.io/components/climate.fritzhome/
+"""
 import logging
 
-from custom_components.fritzhome import DATA_FRITZHOME
+from custom_components.fritzhome import (DATA_FRITZHOME, ATTR_FW_VERSION,
+    ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
 from homeassistant.components.climate import (
     ClimateDevice, ENTITY_ID_FORMAT, PRECISION_HALVES, STATE_ECO,
 )
 from homeassistant.const import (TEMP_CELSIUS, ATTR_TEMPERATURE)
-from homeassistant.helpers.entity import Entity, async_generate_entity_id
+from homeassistant.helpers.entity import async_generate_entity_id
 
 DEPENDENCIES = ['fritzhome']
 
@@ -13,15 +20,9 @@ _LOGGER = logging.getLogger(__name__)
 
 STATE_COMFORT = 'comfort'
 
-OPERATION_LIST = [STATE_ECO, STATE_COMFORT]
-
-ATTR_FW_VERSION = 'firmware_verson'
-ATTR_MANUFACTURER = 'manufacturer'
-ATTR_PRODUCTNAME = 'product_name'
-
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
-    """Set the Fritzhome thermostat platform."""
+    """Set up the Fritzhome thermostat platform."""
 
     if DATA_FRITZHOME not in hass.data:
         return False
@@ -40,6 +41,8 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 class FritzhomeThermostat(ClimateDevice):
     """The thermostat class for Fritzhome."""
 
+    OPERATION_LIST = [STATE_ECO, STATE_COMFORT]
+
     def __init__(self, hass, device):
         self._device = device
         self._temperature = None
@@ -54,10 +57,6 @@ class FritzhomeThermostat(ClimateDevice):
     def available(self):
         """Return if thermostat is available."""
         return self._device.get_present()
-
-    @property
-    def should_poll(self):
-        return True
 
     @property
     def name(self):
@@ -105,24 +104,7 @@ class FritzhomeThermostat(ClimateDevice):
     @property
     def operation_list(self):
         """Return the list of available operation modes."""
-        return OPERATION_LIST
-
-#    def set_operation_mode(self, operation_mode):
-#        """Set operation mode."""
-#        self._thermostat.mode = self.reverse_modes[operation_mode]
-
-#    def turn_away_mode_off(self):
-#        """Away mode off turns to AUTO mode."""
-#        self.set_operation_mode(STATE_AUTO)
-
-#    def turn_away_mode_on(self):
-#        """Set away mode on."""
-#        self.set_operation_mode(STATE_AWAY)
-
-#    @property
-#    def is_away_mode_on(self):
-#        """Return if we are away."""
-#        return False
+        return self.OPERATION_LIST
 
     @property
     def min_temp(self):
@@ -137,14 +119,13 @@ class FritzhomeThermostat(ClimateDevice):
     @property
     def device_state_attributes(self):
         """Return the device specific state attributes."""
-        dev_specific = {
+        attr = {
             ATTR_FW_VERSION : self._device.fw_version,
             ATTR_MANUFACTURER : self._device.manufacturer,
             ATTR_PRODUCTNAME: self._device.productname,
             ATTR_PRODUCTNAME: self._device.productname,
         }
-
-        return dev_specific
+        return attr
 
     def update(self):
         """Update the data from the thermostat."""
@@ -153,6 +134,5 @@ class FritzhomeThermostat(ClimateDevice):
             self._target_temperature = self._device.get_soll_temperature()
             self._comfort_temperature = self._device.get_komfort_temperature()
             self._eco_temperature = self._device.get_absenk_temperature()
-            _LOGGER.warning("update")
-        except Exception as e:
-            _LOGGER.warning("Updating the state failed: %s", e)
+        except Exception as exc:
+            _LOGGER.warning("Updating the state failed: %s", exc)
