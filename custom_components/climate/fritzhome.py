@@ -88,7 +88,7 @@ class FritzhomeThermostat(ClimateDevice):
         temperature = kwargs.get(ATTR_TEMPERATURE)
         if temperature is None:
             return
-        self._device.set_temperature(temperature)
+        self._device.set_target_temperature(temperature)
 
     @property
     def current_operation(self):
@@ -131,8 +131,8 @@ class FritzhomeThermostat(ClimateDevice):
         """Update the data from the thermostat."""
         try:
             self._temperature = self._device.get_temperature()
-            self._target_temperature = self._device.get_soll_temperature()
-            self._comfort_temperature = self._device.get_komfort_temperature()
-            self._eco_temperature = self._device.get_absenk_temperature()
+            self._target_temperature = self._device.get_target_temperature()
+            self._comfort_temperature = self._device.get_comfort_temperature()
+            self._eco_temperature = self._device.get_eco_temperature()
         except Exception as exc:
             _LOGGER.warning("Updating the state failed: %s", exc)
