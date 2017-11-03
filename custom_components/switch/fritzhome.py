@@ -10,7 +10,7 @@ from custom_components.fritzhome import (DATA_FRITZHOME, ATTR_FW_VERSION,
 from homeassistant.components.switch import (
     SwitchDevice, ENTITY_ID_FORMAT
 )
-from homeassistant.helpers.entity import async_generate_entity_id
+from homeassistant.helpers.entity import generate_entity_id
 
 DEPENDENCIES = ['fritzhome']
 
@@ -39,14 +39,14 @@ class FritzhomeSwitch(SwitchDevice):
 
     def __init__(self, hass, device):
         self._device = device
-        self.entity_id = async_generate_entity_id(ENTITY_ID_FORMAT, device.name,
-                                                  hass=hass)
+        self.entity_id = generate_entity_id(ENTITY_ID_FORMAT, device.name,
+                                            hass=hass)
         self._state = None
 
     @property
     def available(self):
         """Return if switch is available."""
-        return self._device.get_present()
+        return self._device.present
 
     @property
     def name(self):

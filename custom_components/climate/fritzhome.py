@@ -12,7 +12,7 @@ from homeassistant.components.climate import (
     ClimateDevice, ENTITY_ID_FORMAT, PRECISION_HALVES, STATE_ECO,
 )
 from homeassistant.const import (TEMP_CELSIUS, ATTR_TEMPERATURE)
-from homeassistant.helpers.entity import async_generate_entity_id
+from homeassistant.helpers.entity import generate_entity_id
 
 DEPENDENCIES = ['fritzhome']
 
@@ -45,18 +45,18 @@ class FritzhomeThermostat(ClimateDevice):
 
     def __init__(self, hass, device):
         self._device = device
-        self._temperature = None
+        self._actual_temperature = None
         self._target_temperature = None
         self._eco_temperature = None
         self._comfort_temperature = None
 
-        self.entity_id = async_generate_entity_id(ENTITY_ID_FORMAT, device.name,
-                                                  hass=hass)
+        self.entity_id = generate_entity_id(ENTITY_ID_FORMAT, device.name,
+                                            hass=hass)
 
     @property
     def available(self):
         """Return if thermostat is available."""
-        return self._device.get_present()
+        return self._device.present
 
     @property
     def name(self):
@@ -76,7 +76,7 @@ class FritzhomeThermostat(ClimateDevice):
     @property
     def current_temperature(self):
         """Can not report temperature, so return target_temperature."""
-        return self._temperature
+        return self._actual_temperature
 
     @property
     def target_temperature(self):
@@ -130,9 +130,10 @@ class FritzhomeThermostat(ClimateDevice):
     def update(self):
         """Update the data from the thermostat."""
         try:
-            self._temperature = self._device.get_temperature()
-            self._target_temperature = self._device.get_target_temperature()
-            self._comfort_temperature = self._device.get_comfort_temperature()
-            self._eco_temperature = self._device.get_eco_temperature()
+            self._device.update()
+            self._actual_temperature = self._device.actual_temperature
+            self._target_temperature = self._device.target_temperature
+            self._comfort_temperature = self._device.comfort_temperature
+            self._eco_temperature = self._device.eco_temperature
         except Exception as exc:
             _LOGGER.warning("Updating the state failed: %s", exc)

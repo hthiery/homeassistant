@@ -15,7 +15,7 @@ from homeassistant.const import (CONF_HOST, CONF_PASSWORD, CONF_USERNAME,
 
 _LOGGER = logging.getLogger(__name__)
 
-REQUIREMENTS = ['pyfritzhome==0.3.1']
+REQUIREMENTS = ['pyfritzhome==0.3.3']
 
 DATA_FRITZHOME = 'fritzhome_api'
 SUPPORTED_DOMAINS = ['climate', 'switch']

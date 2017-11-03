@@ -15,7 +15,7 @@ from homeassistant.components.sensor import ENTITY_ID_FORMAT
 import homeassistant.helpers.config_validation as cv
 from homeassistant.const import (
     STATE_UNKNOWN, TEMP_CELSIUS)
-from homeassistant.helpers.entity import Entity, async_generate_entity_id
+from homeassistant.helpers.entity import Entity, generate_entity_id
 from homeassistant.helpers.event import async_track_point_in_utc_time
 from homeassistant.util import dt as dt_util
 
@@ -52,11 +52,16 @@ class FritzhomePowerMeter(Entity):
 
     def __init__(self, hass, device, config):
         self.hass = hass
-        self.entity_id = async_generate_entity_id(ENTITY_ID_FORMAT, device.id,
+        self.entity_id = generate_entity_id(ENTITY_ID_FORMAT, device.id,
                                                   hass=hass)
         self._config = config
         self._value = STATE_UNKNOWN
         self._device = device
+
+    @property
+    def available(self):
+        """Return if thermostat is available."""
+        return self._device.present
 
     @property
     def name(self):
