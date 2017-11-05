@@ -1,0 +1,9 @@
+secrets.yaml
+*.pyc
+*.swp
+*~
+home-assistant.log
+home-assistant_v2.db
+.HA_VERSION
+.uuid
+known_devices.yaml

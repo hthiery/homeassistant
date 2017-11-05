@@ -1,0 +1,12 @@
+- platform: fritzhome
+- platform: generic_thermostat
+  name: WC Heizung
+  heater: switch.wc_heizung
+  target_sensor: sensor.wc_temperature
+  min_temp: 16
+  max_temp: 24
+  target_temp: 21
+  cold_tolerance: 1.0
+  hot_tolerance: 0
+  min_cycle_duration:
+    minutes: 5

@@ -1,0 +1,33 @@
+- alias: Temperaturüberwachung Wohnzimmer
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.wohnzimmer_temperature
+      below: 18
+  action:
+    - service: notify.telegram
+      data:
+        message: "Temperatur im Wohnzimmer ist unter 18 Grad."
+
+- alias: Kaffeemaschine einschalten
+  trigger:
+    platform: time
+    at: '05:50:00'
+  action:
+    - service: notify.telegram
+      data:
+        message: "Kaffeemaschine ist eingeschaltet!"
+    - service: switch.turn_on
+      data:
+        entity_id: switch.kaffeemaschine
+
+- alias: Switch nicht erreichbar
+  trigger:
+    - platform: state
+      entity_id: switch.wc_heizung
+      to: unavailable
+  action:
+    - service: notify.telegram
+      data:
+        message: "Switch WC Heizung nicht mehr verbunden."
+
+

@@ -1,0 +1,122 @@
+
+### VIEWS
+#default_view:
+#  view: yes
+#  entities:
+#    - group.wohnzimmer
+#    - device_tracker.heiko_nexus5x
+#    - group.wohnzimmer
+#    - group.environment
+
+family_view:
+  name: Family
+  view: yes
+  entities:
+    - device_tracker.heiko_nexus5x
+    - device_tracker.simone_nexus5x
+    - device_tracker.marie_nexus5x
+
+erdgeschoss_view:
+  name: Erdgeschoss
+  view: yes
+  entities:
+    - group.wohnzimmer
+    - group.kueche
+    - group.wc
+
+obergeschoss_view:
+  name: Obergeschoss
+  view: yes
+  entities:
+    - group.badezimmer
+    - group.marie
+    - group.jakob
+    - group.paulina
+    - group.schlafzimmer
+
+keller_view:
+  name: Keller
+  view: yes
+  entities:
+    - group.keller
+
+### GROUPS
+wc:
+  name: Gäste WC
+  entities:
+    - switch.wc_heizung
+    - sensor.wc_temperature
+    - sensor.wc_lacrosse_battery
+    - climate.wc_heizung
+
+wohnzimmer:
+  name: Wohnzimmer
+  entities:
+    - sensor.wohnzimmer_temperature
+    - sensor.wohnzimmer_humidity
+    - sensor.wohnzimmer_lacrosse_battery
+    - group.wohnzimmer_lights
+
+kueche:
+  name: Küche
+  entities:
+    - switch.kaffeemaschine
+
+wohnzimmer_lights:
+  name: Wohnzimmer Licht
+  entities:
+    - light.wohnzimmer
+    - light.wohnzimmer_lampe_links_1
+    - light.wohnzimmer_lampe_links_2
+    - light.wohnzimmer_lampe_rechts_1
+    - light.wohnzimmer_lampe_rechts_2
+    - light.wohnzimmer_schrank
+
+keller:
+  name: Keller
+  entities:
+    - sensor.keller_temperature
+    - sensor.keller_humidity
+    - sensor.keller_lacrosse_battery
+
+badezimmer:
+  name: Badezimmer
+  entities:
+    - climate.badezimmer
+
+marie:
+  name: Marie
+  entities:
+    - sensor.marie_temperature
+    - sensor.marie_humidity
+    - sensor.marie_lacrosse_battery
+    - climate.marie
+
+jakob:
+  name: Jakob
+  entities:
+    - sensor.jakob_temperature
+    - sensor.jakob_humidity
+    - sensor.jakob_lacrosse_battery
+    - climate.jakob
+
+paulina:
+  name: Paulina
+  entities:
+    - sensor.paulina_temperature
+    - sensor.paulina_humidity
+    - sensor.paulina_lacrosse_battery
+    - climate.paulina
+
+schlafzimmer:
+  name: Schlafzimmer
+  entities:
+    - sensor.schlafzimmer_temperature
+    - sensor.schlafzimmer_humidity
+    - sensor.schlafzimmer_lacrosse_battery
+
+environment:
+  name: Wetter
+  entities:
+    - sensor.yr_symbol
+    - sun.sun

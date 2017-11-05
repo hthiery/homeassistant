@@ -1,0 +1,90 @@
+- platform: yr
+- platform: fritzhome
+- platform: lacrosse
+  sensors:
+    wc_temperature:
+      name: WC Temperatur
+      type: temperature
+      id: 200
+    wc_lacrosse_battery:
+      name: WC Sensor Batterie
+      type: battery
+      id: 200
+
+    wohnzimmer_humidity:
+      name: Wohnzimmer Luftfeuchtigkeit
+      type: humidity
+      id: 72
+    wohnzimmer_temperature:
+      name: Wohnzimmer Temperatur
+      type: temperature
+      id: 72
+    wohnzimmer_lacrosse_battery:
+      name: Wohnzimmer Sensor Batterie
+      type: battery
+      id: 72
+
+    keller_humidity:
+      name: Keller Luftfeuchtigkeit
+      type: humidity
+      id: 0
+    keller_temperature:
+      name: Keller Temperatur
+      type: temperature
+      id: 0
+    keller_lacrosse_battery:
+      name: Keller Sensor Batterie
+      type: battery
+      id: 0
+
+    paulina_humidity:
+      name: Paulina Luftfeuchtigkeit
+      type: humidity
+      id: 16
+    paulina_temperature:
+      name: Paulina Temperatur
+      type: temperature
+      id: 16
+    paulina_lacrosse_battery:
+      name: Paulina Sensor Batterie
+      type: battery
+      id: 16
+
+    marie_humidity:
+      name: Marie Luftfeuchtigkeit
+      type: humidity
+      id: 144
+    marie_temperature:
+      name: Marie Temperatur
+      type: temperature
+      id: 144
+    marie_lacrosse_battery:
+      name: Marie Sensor Batterie
+      type: battery
+      id: 144
+
+    jakob_humidity:
+      name: Jakob Luftfeuchtigkeit
+      type: humidity
+      id: 216
+    jakob_temperature:
+      name: Jakob Temperatur
+      type: temperature
+      id: 216
+    jakob_lacrosse_battery:
+      name: Jakob Sensor Batterie
+      type: battery
+      id: 216
+
+    schlafzimmer_humidity:
+      name: Schlafzimmer Luftfeuchtigkeit
+      type: humidity
+      id: 40
+    schlafzimmer_temperature:
+      name: Schlafzimmer Temperatur
+      type: temperature
+      id: 40
+    schlafzimmer_lacrosse_battery:
+      name: Schlafzimmer Sensor Batterie
+      type: battery
+      id: 40
