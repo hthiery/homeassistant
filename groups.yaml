@@ -56,6 +56,9 @@ wohnzimmer:
     - sensor.wohnzimmer_humidity
     - sensor.wohnzimmer_lacrosse_battery
     - group.wohnzimmer_lights
+    - media_player.kodi
+    - media_player.samsung_tv_remote
+    - sensor.tradfri_remote_control
 
 kueche:
   name: Küche
