@@ -1,0 +1,53 @@
+- alias: WC Temperatur um 5:15 auf Komfort
+  trigger:
+    - platform: time
+      at: '05:15:00'
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.wc_heizung
+        temperature: 21
+    - service: notify.telegram
+      data:
+        message: "Zieltemperatur im Gäste WC auf 21 Grad gesetzt."
+
+- alias: WC Temperatur um 8:30 auf Eco
+  trigger:
+    - platform: time
+      at: '08:30:00'
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.wc_heizung
+        temperature: 19
+    - service: notify.telegram
+      data:
+        message: "Zieltemperatur im Gäste WC auf 19 Grad gesetzt."
+
+- alias: WC Temperatur um 12:00 auf Komfort
+  trigger:
+    - platform: time
+      at: '12:30:00'
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.wc_heizung
+        temperature: 20
+    - service: notify.telegram
+      data:
+        message: "Zieltemperatur im Gäste WC auf 20 Grad gesetzt."
+
+- alias: WC Temperatur um 22:00 auf Eco
+  trigger:
+    - platform: time
+      at: '22:00:00'
+  action:
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.wc_heizung
+        temperature: 18
+    - service: notify.telegram
+      data:
+        message: "Zieltemperatur im Gäste WC auf 18 Grad gesetzt."
+
+

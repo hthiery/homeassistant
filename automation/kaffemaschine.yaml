@@ -1,0 +1,12 @@
+- alias: Kaffeemaschine einschalten
+  trigger:
+    platform: time
+    at: '05:50:00'
+  action:
+    - service: notify.telegram
+      data:
+        message: "Kaffeemaschine ist eingeschaltet!"
+    - service: switch.turn_on
+      data:
+        entity_id: switch.kaffeemaschine
+

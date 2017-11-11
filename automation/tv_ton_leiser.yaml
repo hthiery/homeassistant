@@ -1,0 +1,17 @@
+#- alias: Fernseher Ton leiser
+#  trigger:
+#    platform: state
+#    entity_id: device_tracker.heiko_nexus5x
+#    #to: 'not_home'
+#    to: 'home'
+#  condition:
+#    condition: time
+#    after: '21:00'
+#  action:
+#    - service: notify.telegram
+#      data:
+#        message: "TV Ton leiser."
+#    - service: media_player.volume_set
+#      data:
+#        entity_id: media_player.samsung_tv_remote
+#        volume_level: 0.2
