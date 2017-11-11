@@ -123,7 +123,6 @@ class FritzhomeThermostat(ClimateDevice):
             ATTR_FW_VERSION : self._device.fw_version,
             ATTR_MANUFACTURER : self._device.manufacturer,
             ATTR_PRODUCTNAME: self._device.productname,
-            ATTR_PRODUCTNAME: self._device.productname,
         }
         return attr
 
@@ -137,3 +136,7 @@ class FritzhomeThermostat(ClimateDevice):
             self._eco_temperature = self._device.eco_temperature
         except Exception as exc:
             _LOGGER.warning("Updating the state failed: %s", exc)
+            self._actual_temperature = None
+            self._target_temperature = None
+            self._eco_temperature = None
+            self._comfort_temperature = None
