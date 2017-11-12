@@ -1,0 +1,120 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Hexenhaus
+  # Location required to calculate the time the sun rises and sets
+  latitude: 50.001
+  longitude: 8.2688
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 88
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Berlin
+  # Customization file
+  customize: !include customize.yaml
+
+# Show links to resources in log and frontend
+#introduction:
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+http:
+  # Uncomment this to add a password (recommended!)
+  # api_password: PASSWORD
+  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+  # base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+#discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Track the sun
+sun:
+
+# Text to speech
+tts:
+  - platform: google
+
+automation: !include_dir_merge_list automation
+
+climate: !include climate.yaml
+
+group: !include groups.yaml
+
+sensor: !include sensors.yaml
+
+script: !include scripts.yaml
+
+media_player:
+  - platform: samsungtv
+    host: 192.168.0.10
+    port: 8001
+  - platform: kodi
+    host: 192.168.0.11
+    turn_on_action:
+      - service: wake_on_lan.send_magic_packet
+        data:
+          mac: !secret kodi_mac
+    turn_off_action:
+      - service: media_player.kodi_call_method
+        data:
+          entity_id: media_player.kodi
+          method: System.Shutdown
+
+wake_on_lan:
+
+device_tracker:
+  - platform: fritz
+    host: 192.168.0.254
+    track_new_devices: no
+
+tradfri:
+  host: 192.168.0.42
+#  api_key: !secret tradfri_api_key
+#  api_key:
+
+telegram_bot:
+  - platform: polling
+    api_key: 459917695:AAEURey8GAOcqGA3pNxfMnMqe1guxaKQtdE
+    allowed_chat_ids:
+      - !secret telegram_chat_id
+
+notify:
+  - name: telegram
+    platform: telegram
+    chat_id: !secret telegram_chat_id
+
+#logger:
+#  default: error
+#  logs:
+#    homeassistant.components.sensor.lacrosse: info
+#    homeassistant.components.fritzhome: info
+
+fritzhome:
+  host: 192.168.0.254
+  username: !secret fritzhome_username
+  password: !secret fritzhome_password
+
+#switch:
+#  - platform: fritzhome

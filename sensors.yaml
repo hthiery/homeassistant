@@ -1,5 +1,5 @@
 - platform: yr
-- platform: fritzhome
+#- platform: fritzhome
 - platform: lacrosse
   sensors:
     wc_temperature:

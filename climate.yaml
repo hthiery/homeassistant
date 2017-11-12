@@ -1,4 +1,4 @@
-- platform: fritzhome
+#- platform: fritzhome
 - platform: generic_thermostat
   name: WC Heizung
   heater: switch.wc_heizung
