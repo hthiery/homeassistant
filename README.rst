@@ -29,11 +29,11 @@ Configuration
     - platform: lacrosse
       sensors:
         wohnzimmer_temperature:
-          friendly_name: Wohnzimmer Temperatur
+          name: Wohnzimmer Temperatur
           type: temperature
           id: 60
         wohnzimmer_humidity:
-          friendly_name: Wohnzimmer Luftfeuchtigkeit
+          name: Wohnzimmer Luftfeuchtigkeit
           type: humidity
           id: 60
 
