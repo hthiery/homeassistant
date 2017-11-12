@@ -19,10 +19,11 @@ _LOGGER = logging.getLogger(__name__)
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup the Fritzhome sensor component."""
-    #from pyfritzhome import Fritzhome
 
-    fritz = hass.data[DOMAIN]
-    device_list = fritz.get_devices()
+    if DOMAIN not in hass.data:
+        return False
+
+    device_list = hass.data[DOMAIN]
 
     sensors = []
     for device in device_list:

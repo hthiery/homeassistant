@@ -22,8 +22,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     if DOMAIN not in hass.data:
         return False
 
-    fritz = hass.data[DOMAIN]
-    device_list = fritz.get_devices()
+    device_list = hass.data[DOMAIN]
 
     devices = []
     for device in device_list:

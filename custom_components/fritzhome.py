@@ -51,7 +51,7 @@ def setup(hass, config):
     try:
         fritz = Fritzhome(host=host, user=username, password=password)
         fritz.login()
-        hass.data[DOMAIN] = fritz
+        hass.data[DOMAIN] = fritz.get_devices()
     except LoginError:
         _LOGGER.warning("Login to Fritz!Box failed")
         return False
