@@ -11,12 +11,12 @@ import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
 from homeassistant.const import (CONF_HOST, CONF_PASSWORD, CONF_USERNAME,
     EVENT_HOMEASSISTANT_STOP)
+from homeassistant.helpers import discovery
 
 _LOGGER = logging.getLogger(__name__)
 
 REQUIREMENTS = ['pyfritzhome==0.3.4']
 
-DATA_FRITZHOME = 'fritzhome_api'
 SUPPORTED_DOMAINS = ['climate', 'switch']
 
 DOMAIN = 'fritzhome'
@@ -51,12 +51,15 @@ def setup(hass, config):
     try:
         fritz = Fritzhome(host=host, user=username, password=password)
         fritz.login()
-        hass.data[DATA_FRITZHOME] = fritz
+        hass.data[DOMAIN] = fritz
     except LoginError:
         _LOGGER.warning("Login to Fritz!Box failed")
         return False
 
     hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, fritz.logout)
+
+    for domain in SUPPORTED_DOMAINS:
+        discovery.load_platform(hass, domain, DOMAIN, {}, config)
 
     _LOGGER.info('Connected to fritzbox')
 

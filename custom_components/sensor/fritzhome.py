@@ -6,7 +6,7 @@ http://home-assistant.io/components/sensor.fritzhome/
 """
 import logging
 
-from custom_components.fritzhome import (DATA_FRITZHOME, ATTR_AIN, ATTR_FW_VERSION,
+from custom_components.fritzhome import (DOMAIN, ATTR_AIN, ATTR_FW_VERSION,
     ATTR_ID, ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
 from homeassistant.components.sensor import ENTITY_ID_FORMAT
 from homeassistant.helpers.entity import Entity, generate_entity_id
@@ -21,7 +21,7 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup the Fritzhome sensor component."""
     #from pyfritzhome import Fritzhome
 
-    fritz = hass.data[DATA_FRITZHOME]
+    fritz = hass.data[DOMAIN]
     device_list = fritz.get_devices()
 
     sensors = []
