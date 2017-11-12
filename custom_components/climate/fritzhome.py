@@ -6,13 +6,12 @@ http://home-assistant.io/components/climate.fritzhome/
 """
 import logging
 
-from custom_components.fritzhome import (DATA_FRITZHOME, ATTR_FW_VERSION,
-    ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
+from custom_components.fritzhome import (DATA_FRITZHOME, ATTR_AIN, ATTR_FW_VERSION,
+    ATTR_ID, ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
 from homeassistant.components.climate import (
-    ClimateDevice, ENTITY_ID_FORMAT, PRECISION_HALVES, STATE_ECO,
+    ClimateDevice, PRECISION_HALVES, STATE_ECO
 )
 from homeassistant.const import (TEMP_CELSIUS, ATTR_TEMPERATURE)
-from homeassistant.helpers.entity import generate_entity_id
 
 DEPENDENCIES = ['fritzhome']
 
@@ -49,9 +48,6 @@ class FritzhomeThermostat(ClimateDevice):
         self._target_temperature = None
         self._eco_temperature = None
         self._comfort_temperature = None
-
-        self.entity_id = generate_entity_id(ENTITY_ID_FORMAT, device.name,
-                                            hass=hass)
 
     @property
     def available(self):
@@ -120,7 +116,9 @@ class FritzhomeThermostat(ClimateDevice):
     def device_state_attributes(self):
         """Return the device specific state attributes."""
         attr = {
+            ATTR_AIN : self._device.ain,
             ATTR_FW_VERSION : self._device.fw_version,
+            ATTR_ID : self._device.id,
             ATTR_MANUFACTURER : self._device.manufacturer,
             ATTR_PRODUCTNAME: self._device.productname,
         }

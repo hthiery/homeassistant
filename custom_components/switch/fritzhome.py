@@ -5,12 +5,11 @@ For more details about this component, please refer to the documentation at
 http://home-assistant.io/components/switch.fritzhome/
 """
 import logging
-from custom_components.fritzhome import (DATA_FRITZHOME, ATTR_FW_VERSION,
-    ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
+from custom_components.fritzhome import (DATA_FRITZHOME, ATTR_AIN, ATTR_FW_VERSION,
+    ATTR_ID, ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
 from homeassistant.components.switch import (
     SwitchDevice, ENTITY_ID_FORMAT
 )
-from homeassistant.helpers.entity import generate_entity_id
 
 DEPENDENCIES = ['fritzhome']
 
@@ -38,9 +37,8 @@ class FritzhomeSwitch(SwitchDevice):
     """The thermostat class for Fritzhome."""
 
     def __init__(self, hass, device):
+        """Initialize the switch."""
         self._device = device
-        self.entity_id = generate_entity_id(ENTITY_ID_FORMAT, device.name,
-                                            hass=hass)
         self._state = None
 
     @property
@@ -57,16 +55,25 @@ class FritzhomeSwitch(SwitchDevice):
     def device_state_attributes(self):
         """Return the state attributes of the device."""
         attr = {
+            ATTR_AIN : self._device.ain,
             ATTR_FW_VERSION : self._device.fw_version,
+            ATTR_ID : self._device.id,
             ATTR_MANUFACTURER : self._device.manufacturer,
-            ATTR_PRODUCTNAME: self._device.productname,
             ATTR_PRODUCTNAME: self._device.productname,
         }
         return attr
 
     @property
     def is_on(self):
-        return self._device.get_switch_state()
+        """Return true if the switch is on."""
+        from pyfritzhome import InvalidError
+
+        try:
+            state = self._device.get_switch_state()
+        except InvalidError as exc:
+            state = None
+
+        return state
 
     def turn_on(self, **kwargs):
         """Turn the switch on."""
@@ -78,4 +85,12 @@ class FritzhomeSwitch(SwitchDevice):
 
     def update(self):
         """Get latest data and states from the device."""
-        pass
+        try:
+            self._device.update()
+        except Exception as exc:
+            _LOGGER.warning("Updating the state failed: %s", exc)
+
+    @property
+    def current_power_w(self):
+        """Return the current power usage in W."""
+        return self._device.power / 1000
