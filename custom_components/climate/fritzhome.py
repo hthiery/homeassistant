@@ -6,8 +6,8 @@ http://home-assistant.io/components/climate.fritzhome/
 """
 import logging
 
-from custom_components.fritzhome import (DOMAIN, ATTR_AIN, ATTR_FW_VERSION,
-    ATTR_ID, ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
+from custom_components.fritzhome import (DOMAIN, ATTR_AIN, ATTR_DISCOVERY_THERMOSTATES,
+    ATTR_FW_VERSION, ATTR_ID, ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
 from homeassistant.components.climate import (
     ClimateDevice, PRECISION_HALVES, STATE_ECO
 )
@@ -23,15 +23,15 @@ STATE_COMFORT = 'comfort'
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Set up the Fritzhome thermostat platform."""
 
-    if DOMAIN not in hass.data:
-        return False
+    if (discovery_info is None or
+            discovery_info[ATTR_DISCOVERY_THERMOSTATES] is None):
+        return
 
-    device_list = hass.data[DOMAIN]
+    device_list = discovery_info[ATTR_DISCOVERY_THERMOSTATES]
 
     devices = []
     for device in device_list:
-        if device.has_thermostat:
-            devices.append(FritzhomeThermostat(hass, device))
+        devices.append(FritzhomeThermostat(hass, device))
 
     add_devices(devices)
 

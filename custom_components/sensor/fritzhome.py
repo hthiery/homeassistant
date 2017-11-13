@@ -6,8 +6,8 @@ http://home-assistant.io/components/sensor.fritzhome/
 """
 import logging
 
-from custom_components.fritzhome import (DOMAIN, ATTR_AIN, ATTR_FW_VERSION,
-    ATTR_ID, ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
+from custom_components.fritzhome import (DOMAIN, ATTR_AIN, ATTR_DISCOVERY_SENSORS,
+    ATTR_FW_VERSION, ATTR_ID, ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
 from homeassistant.components.sensor import ENTITY_ID_FORMAT
 from homeassistant.helpers.entity import Entity, generate_entity_id
 from homeassistant.helpers.event import async_track_point_in_utc_time
@@ -20,10 +20,11 @@ _LOGGER = logging.getLogger(__name__)
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup the Fritzhome sensor component."""
 
-    if DOMAIN not in hass.data:
-        return False
+    if (discovery_info is None or
+            discovery_info[ATTR_DISCOVERY_SENSORS] is None):
+        return
 
-    device_list = hass.data[DOMAIN]
+    device_list = discovery_info[ATTR_DISCOVERY_SENSORS]
 
     sensors = []
     for device in device_list:
