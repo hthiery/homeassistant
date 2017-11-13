@@ -51,8 +51,10 @@ Configuration
       username: <SMARTHOME-USER>
       password: <SMARTHOME-PASSWORD>
 
-    climate:
-      platform: fritzhome
+    #Not needed any longer
+    #climate:
+    #  platform: fritzhome
 
-    switch:
-      - platform: fritzhome
+    #Not needed any longer
+    #switch:
+    #  - platform: fritzhome
