@@ -17,13 +17,11 @@ _LOGGER = logging.getLogger(__name__)
 
 REQUIREMENTS = ['pyfritzhome==0.3.4']
 
+SUPPORTED_DOMAINS = ['climate', 'switch']
+
 DOMAIN = 'fritzhome'
 
 DEFAULT_HOST = 'fritz.box'
-
-ATTR_DISCOVERY_SENSORS = 'sensors'
-ATTR_DISCOVERY_SWITCHES = 'switches'
-ATTR_DISCOVERY_THERMOSTATES = 'thermostates'
 
 ATTR_AIN = 'ain'
 ATTR_ID = 'id'
@@ -50,27 +48,19 @@ def setup(hass, config):
     username = conf.get(CONF_USERNAME)
     password = conf.get(CONF_PASSWORD)
 
-    devices = None
     try:
         fritz = Fritzhome(host=host, user=username, password=password)
         fritz.login()
-        devices = fritz.get_devices()
+        hass.data[DOMAIN] = fritz.get_devices()
     except LoginError:
         _LOGGER.warning("Login to Fritz!Box failed")
         return False
 
-    _LOGGER.info('Connected to Fritz!Box')
-
     hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, fritz.logout)
 
-    discovery.load_platform(hass, 'climate', DOMAIN, 
-        {ATTR_DISCOVERY_THERMOSTATES: [d for d in devices if d.has_thermostat]}, config)
+    for domain in SUPPORTED_DOMAINS:
+        discovery.load_platform(hass, domain, DOMAIN, {}, config)
 
-    discovery.load_platform(hass, 'sensor', DOMAIN,
-        {ATTR_DISCOVERY_SENSORS: devices}, config)
-
-    discovery.load_platform(hass, 'switch', DOMAIN,
-        {ATTR_DISCOVERY_SWITCHES: [d for d in devices if d.has_switch]}, config)
-
+    _LOGGER.info('Connected to fritzbox')
 
     return True
