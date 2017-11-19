@@ -6,11 +6,9 @@ http://home-assistant.io/components/sensor.fritzhome/
 """
 import logging
 
-from custom_components.fritzhome import (DOMAIN, ATTR_AIN, ATTR_FW_VERSION,
-    ATTR_ID, ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
-from homeassistant.components.sensor import ENTITY_ID_FORMAT
-from homeassistant.helpers.entity import Entity, generate_entity_id
-from homeassistant.helpers.event import async_track_point_in_utc_time
+from custom_components.fritzhome import (DOMAIN, ATTR_AIN, ATTR_FW_VERSION, ATTR_ID,
+    ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
+from homeassistant.helpers.entity import Entity
 
 DEPENDENCIES = ['fritzhome']
 
@@ -47,7 +45,6 @@ class FritzhomePowerMeter(Entity):
         self._config = config
         self._power = None
         self._device = device
-        self.entity_id = generate_entity_id(ENTITY_ID_FORMAT, device.name, hass=hass)
 
     @property
     def available(self):
@@ -59,7 +56,7 @@ class FritzhomePowerMeter(Entity):
         """Return the name of the sensor."""
         return self._device.name
 
-    def update(self, *args):
+    def update(self):
         """Get the latest data."""
         try:
             self._device.update()
@@ -77,10 +74,10 @@ class FritzhomePowerMeter(Entity):
     def device_state_attributes(self):
         """Return the state attributes."""
         attr = {
-            ATTR_AIN : self._device.ain,
-            ATTR_FW_VERSION : self._device.fw_version,
-            ATTR_ID : self._device.id,
-            ATTR_MANUFACTURER : self._device.manufacturer,
+            ATTR_AIN: self._device.ain,
+            ATTR_FW_VERSION: self._device.fw_version,
+            ATTR_ID: self._device.id,
+            ATTR_MANUFACTURER: self._device.manufacturer,
             ATTR_PRODUCTNAME: self._device.productname,
         }
         return attr

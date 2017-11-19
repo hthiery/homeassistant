@@ -9,8 +9,7 @@ import logging
 from custom_components.fritzhome import (DOMAIN, ATTR_AIN, ATTR_FW_VERSION,
     ATTR_ID, ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
 from homeassistant.components.climate import (
-    ClimateDevice, PRECISION_HALVES, STATE_ECO
-)
+    ClimateDevice, PRECISION_HALVES, STATE_ECO)
 from homeassistant.const import (TEMP_CELSIUS, ATTR_TEMPERATURE)
 
 DEPENDENCIES = ['fritzhome']
@@ -115,10 +114,10 @@ class FritzhomeThermostat(ClimateDevice):
     def device_state_attributes(self):
         """Return the device specific state attributes."""
         attr = {
-            ATTR_AIN : self._device.ain,
-            ATTR_FW_VERSION : self._device.fw_version,
-            ATTR_ID : self._device.id,
-            ATTR_MANUFACTURER : self._device.manufacturer,
+            ATTR_AIN: self._device.ain,
+            ATTR_FW_VERSION: self._device.fw_version,
+            ATTR_ID: self._device.id,
+            ATTR_MANUFACTURER: self._device.manufacturer,
             ATTR_PRODUCTNAME: self._device.productname,
         }
         return attr

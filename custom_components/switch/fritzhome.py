@@ -5,11 +5,9 @@ For more details about this component, please refer to the documentation at
 http://home-assistant.io/components/switch.fritzhome/
 """
 import logging
-from custom_components.fritzhome import (DOMAIN, ATTR_AIN, ATTR_FW_VERSION,
-    ATTR_ID, ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
-from homeassistant.components.switch import (
-    SwitchDevice, ENTITY_ID_FORMAT
-)
+from custom_components.fritzhome import (DOMAIN, ATTR_AIN, ATTR_FW_VERSION, ATTR_ID,
+    ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
+from homeassistant.components.switch import (SwitchDevice)
 
 DEPENDENCIES = ['fritzhome']
 
@@ -54,10 +52,10 @@ class FritzhomeSwitch(SwitchDevice):
     def device_state_attributes(self):
         """Return the state attributes of the device."""
         attr = {
-            ATTR_AIN : self._device.ain,
-            ATTR_FW_VERSION : self._device.fw_version,
-            ATTR_ID : self._device.id,
-            ATTR_MANUFACTURER : self._device.manufacturer,
+            ATTR_AIN: self._device.ain,
+            ATTR_FW_VERSION: self._device.fw_version,
+            ATTR_ID: self._device.id,
+            ATTR_MANUFACTURER: self._device.manufacturer,
             ATTR_PRODUCTNAME: self._device.productname,
         }
         return attr
@@ -69,7 +67,7 @@ class FritzhomeSwitch(SwitchDevice):
 
         try:
             state = self._device.get_switch_state()
-        except InvalidError as exc:
+        except InvalidError:
             state = None
 
         return state
