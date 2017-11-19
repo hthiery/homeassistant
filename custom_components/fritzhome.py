@@ -15,7 +15,7 @@ from homeassistant.helpers import discovery
 
 _LOGGER = logging.getLogger(__name__)
 
-REQUIREMENTS = ['pyfritzhome==0.3.4']
+REQUIREMENTS = ['pyfritzhome==0.3.5']
 
 SUPPORTED_DOMAINS = ['climate', 'switch']
 
