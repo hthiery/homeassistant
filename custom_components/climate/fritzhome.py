@@ -9,8 +9,8 @@ import logging
 from custom_components.fritzhome import (DOMAIN, ATTR_AIN, ATTR_FW_VERSION,
     ATTR_ID, ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
 from homeassistant.components.climate import (
-    ClimateDevice, PRECISION_HALVES, STATE_ECO)
-from homeassistant.const import (TEMP_CELSIUS, ATTR_TEMPERATURE)
+    ClimateDevice, STATE_ECO)
+from homeassistant.const import (ATTR_TEMPERATURE, PRECISION_HALVES, TEMP_CELSIUS)
 
 DEPENDENCIES = ['fritzhome']
 
