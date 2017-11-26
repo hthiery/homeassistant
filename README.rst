@@ -21,21 +21,9 @@ Components
 LaCrosse
 ````````
 
-Configuration
-'''''''''''''
+Since homeassistant release 0.58 the component is included.
 
-.. code-block:: yaml
-
-    - platform: lacrosse
-      sensors:
-        wohnzimmer_temperature:
-          name: Wohnzimmer Temperatur
-          type: temperature
-          id: 60
-        wohnzimmer_humidity:
-          name: Wohnzimmer Luftfeuchtigkeit
-          type: humidity
-          id: 60
+https://home-assistant.io/components/sensor.lacrosse/
 
 
 Fritzhome
