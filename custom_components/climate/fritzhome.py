@@ -6,25 +6,30 @@ http://home-assistant.io/components/climate.fritzhome/
 """
 import logging
 
-from custom_components.fritzhome import (DOMAIN, ATTR_AIN, ATTR_FW_VERSION,
-    ATTR_ID, ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
+from custom_components.fritzhome import DOMAIN
 from homeassistant.components.climate import (
-    ClimateDevice, STATE_ECO)
-from homeassistant.const import (ATTR_TEMPERATURE, PRECISION_HALVES, TEMP_CELSIUS)
+    ATTR_OPERATION_MODE, ClimateDevice, STATE_ECO,
+    SUPPORT_OPERATION_MODE, SUPPORT_TARGET_TEMPERATURE)
+from homeassistant.const import (PRECISION_HALVES)
+from homeassistant.const import (TEMP_CELSIUS, ATTR_TEMPERATURE)
 
 DEPENDENCIES = ['fritzhome']
 
 _LOGGER = logging.getLogger(__name__)
 
 STATE_COMFORT = 'comfort'
+STATE_MANUAL = 'manual'
+
+SUPPORT_FLAGS = (SUPPORT_TARGET_TEMPERATURE | SUPPORT_OPERATION_MODE)
+
+OPERATION_LIST = [STATE_COMFORT, STATE_ECO, STATE_MANUAL]
+
+MIN_TEMPERATURE = 8
+MAX_TEMPERATURE = 28
 
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Set up the Fritzhome thermostat platform."""
-
-    if DOMAIN not in hass.data:
-        return False
-
     device_list = hass.data[DOMAIN]
 
     devices = []
@@ -36,16 +41,20 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 
 
 class FritzhomeThermostat(ClimateDevice):
-    """The thermostat class for Fritzhome."""
-
-    OPERATION_LIST = [STATE_ECO, STATE_COMFORT]
+    """The thermostat class for Fritzhome thermostates."""
 
     def __init__(self, hass, device):
+        """Initialize the thermostat."""
         self._device = device
-        self._actual_temperature = None
-        self._target_temperature = None
-        self._eco_temperature = None
-        self._comfort_temperature = None
+        self._current_temperature = self._device.actual_temperature
+        self._target_temperature = self._device.target_temperature
+        self._comfort_temperature = self._device.comfort_temperature
+        self._eco_temperature = self._device.eco_temperature
+
+    @property
+    def supported_features(self):
+        """Return the list of supported features."""
+        return SUPPORT_FLAGS
 
     @property
     def available(self):
@@ -69,8 +78,8 @@ class FritzhomeThermostat(ClimateDevice):
 
     @property
     def current_temperature(self):
-        """Can not report temperature, so return target_temperature."""
-        return self._actual_temperature
+        """Return the current temperature."""
+        return self._current_temperature
 
     @property
     def target_temperature(self):
@@ -79,10 +88,12 @@ class FritzhomeThermostat(ClimateDevice):
 
     def set_temperature(self, **kwargs):
         """Set new target temperature."""
-        temperature = kwargs.get(ATTR_TEMPERATURE)
-        if temperature is None:
-            return
-        self._device.set_target_temperature(temperature)
+        if kwargs.get(ATTR_OPERATION_MODE) is not None:
+            operation_mode = kwargs.get(ATTR_OPERATION_MODE)
+            self.set_operation_mode(operation_mode)
+        elif kwargs.get(ATTR_TEMPERATURE) is not None:
+            temperature = kwargs.get(ATTR_TEMPERATURE)
+            self._device.set_target_temperature(temperature)
 
     @property
     def current_operation(self):
@@ -93,46 +104,34 @@ class FritzhomeThermostat(ClimateDevice):
             return STATE_COMFORT
         elif self._target_temperature == self._eco_temperature:
             return STATE_ECO
-        return 'unknown'
+        return STATE_MANUAL
 
     @property
     def operation_list(self):
         """Return the list of available operation modes."""
-        return self.OPERATION_LIST
+        return OPERATION_LIST
+
+    def set_operation_mode(self, operation_mode):
+        """Set new operation mode."""
+        if operation_mode == STATE_COMFORT:
+            self.set_temperature(temperature=self._comfort_temperature)
+        elif operation_mode == STATE_ECO:
+            self.set_temperature(temperature=self._eco_temperature)
 
     @property
     def min_temp(self):
         """Return the minimum temperature."""
-        return self._eco_temperature
+        return MIN_TEMPERATURE
 
     @property
     def max_temp(self):
         """Return the maximum temperature."""
-        return self._comfort_temperature
-
-    @property
-    def device_state_attributes(self):
-        """Return the device specific state attributes."""
-        attr = {
-            ATTR_AIN: self._device.ain,
-            ATTR_FW_VERSION: self._device.fw_version,
-            ATTR_ID: self._device.id,
-            ATTR_MANUFACTURER: self._device.manufacturer,
-            ATTR_PRODUCTNAME: self._device.productname,
-        }
-        return attr
+        return MAX_TEMPERATURE
 
     def update(self):
         """Update the data from the thermostat."""
-        try:
-            self._device.update()
-            self._actual_temperature = self._device.actual_temperature
-            self._target_temperature = self._device.target_temperature
-            self._comfort_temperature = self._device.comfort_temperature
-            self._eco_temperature = self._device.eco_temperature
-        except Exception as exc:
-            _LOGGER.warning("Updating the state failed: %s", exc)
-            self._actual_temperature = None
-            self._target_temperature = None
-            self._eco_temperature = None
-            self._comfort_temperature = None
+        self._device.update()
+        self._current_temperature = self._device.actual_temperature
+        self._target_temperature = self._device.target_temperature
+        self._comfort_temperature = self._device.comfort_temperature
+        self._eco_temperature = self._device.eco_temperature

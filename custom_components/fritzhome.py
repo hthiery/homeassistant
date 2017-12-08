@@ -9,8 +9,8 @@ import logging
 import voluptuous as vol
 
 import homeassistant.helpers.config_validation as cv
-from homeassistant.const import (CONF_HOST, CONF_PASSWORD, CONF_USERNAME,
-    EVENT_HOMEASSISTANT_STOP)
+from homeassistant.const import (
+    CONF_HOST, CONF_PASSWORD, CONF_USERNAME, EVENT_HOMEASSISTANT_STOP)
 from homeassistant.helpers import discovery
 
 _LOGGER = logging.getLogger(__name__)
@@ -23,18 +23,12 @@ DOMAIN = 'fritzhome'
 
 DEFAULT_HOST = 'fritz.box'
 
-ATTR_AIN = 'ain'
-ATTR_ID = 'id'
-ATTR_FW_VERSION = 'firmware_version'
-ATTR_MANUFACTURER = 'manufacturer'
-ATTR_PRODUCTNAME = 'product_name'
-
 
 CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
-        vol.Optional(CONF_HOST, default=DEFAULT_HOST): cv.string,
         vol.Required(CONF_PASSWORD): cv.string,
         vol.Required(CONF_USERNAME): cv.string,
+        vol.Optional(CONF_HOST, default=DEFAULT_HOST): cv.string,
     })
 }, extra=vol.ALLOW_EXTRA)
 
