@@ -24,7 +24,7 @@ config:
 
 http:
   # Uncomment this to add a password (recommended!)
-  # api_password: PASSWORD
+  api_password: !secret homeassistant_api
   # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
   # base_url: example.duckdns.org:8123
 
@@ -118,3 +118,28 @@ fritzhome:
 
 #switch:
 #  - platform: fritzhome
+switch:
+  - platform: mqtt
+    name: "Sonoff power 1"
+    state_topic: "stat/sonoff-1/POWER"
+    command_topic: "cmnd/sonoff-1/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+
+  - platform: mqtt
+    name: "Sonoff power 2"
+    state_topic: "stat/sonoff-2/POWER"
+    command_topic: "cmnd/sonoff-2/POWER"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    retain: true
+
+influxdb:
+
+mqtt:
+  broker: 192.168.0.241
+  port: 1883
+  client_id: home-assistant-1
