@@ -16,6 +16,12 @@ family_view:
     - device_tracker.simone_nexus5x
     - device_tracker.marie_nexus5x
 
+aussen_view:
+  name: Aussen
+  view: yes
+  entities:
+    - group.aussen
+
 erdgeschoss_view:
   name: Erdgeschoss
   view: yes
@@ -23,6 +29,7 @@ erdgeschoss_view:
     - group.wohnzimmer
     - group.kueche
     - group.wc
+    - group.abstellraum
 
 obergeschoss_view:
   name: Obergeschoss
@@ -41,11 +48,18 @@ keller_view:
     - group.keller
 
 ### GROUPS
+aussen:
+  name: Aussen
+  entities:
+    - sensor.aussen_temperature
+    - sensor.aussen_lacrosse_battery
+
 wc:
   name: Gäste WC
   entities:
     - switch.wc_heizung
     - sensor.wc_temperature
+    - sensor.wc_humidity
     - sensor.wc_lacrosse_battery
     - climate.wc_heizung
 
@@ -75,6 +89,13 @@ wohnzimmer_lights:
     - light.wohnzimmer_lampe_rechts_2
     - light.wohnzimmer_schrank
 
+abstellraum:
+  name: Abstellraum
+  entities:
+    - sensor.abstellraum_temperature
+    - sensor.abstellraum_humidity
+    - sensor.abstellraum_lacrosse_battery
+
 keller:
   name: Keller
   entities:
@@ -82,10 +103,6 @@ keller:
     - sensor.keller_humidity
     - sensor.keller_lacrosse_battery
 
-badezimmer:
-  name: Badezimmer
-  entities:
-    - climate.badezimmer
 
 marie:
   name: Marie
@@ -117,6 +134,14 @@ schlafzimmer:
     - sensor.schlafzimmer_temperature
     - sensor.schlafzimmer_humidity
     - sensor.schlafzimmer_lacrosse_battery
+
+badezimmer:
+  name: Badezimmer
+  entities:
+    - climate.badezimmer
+    - sensor.badezimmer_temperature
+    - sensor.badezimmer_humidity
+    - sensor.badezimmer_lacrosse_battery
 
 environment:
   name: Wetter
