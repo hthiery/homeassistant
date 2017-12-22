@@ -1,14 +1,40 @@
 - platform: yr
 - platform: lacrosse
   sensors:
+    aussen_temperature:
+      name: Aussen Temperatur
+      type: temperature
+      id: 200
+    aussen_lacrosse_battery:
+      name: Aussen Sensor Batterie
+      type: battery
+      id: 200
+
+    wc_humidity:
+      name: WC Luftfeuchtigkeit
+      type: humidity
+      id: 128
     wc_temperature:
       name: WC Temperatur
       type: temperature
-      id: 200
+      id: 128
     wc_lacrosse_battery:
       name: WC Sensor Batterie
       type: battery
-      id: 200
+      id: 128
+
+    abstellraum_humidity:
+      name: Abstellraum Luftfeuchtigkeit
+      type: humidity
+      id: 112
+    abstellraum_temperature:
+      name: Abstellraum Temperatur
+      type: temperature
+      id: 112
+    abstellraum_lacrosse_battery:
+      name: Abstellraum Sensor Batterie
+      type: battery
+      id: 112
 
     wohnzimmer_humidity:
       name: Wohnzimmer Luftfeuchtigkeit
@@ -35,6 +61,19 @@
       name: Keller Sensor Batterie
       type: battery
       id: 0
+
+    badezimmer_humidity:
+      name: Badezimmer Luftfeuchtigkeit
+      type: humidity
+      id: 152
+    badezimmer_temperature:
+      name: Badezimmer Temperatur
+      type: temperature
+      id: 152
+    badezimmer_lacrosse_battery:
+      name: Badezimmer Sensor Batterie
+      type: battery
+      id: 152
 
     paulina_humidity:
       name: Paulina Luftfeuchtigkeit
