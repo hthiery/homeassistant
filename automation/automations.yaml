@@ -1,13 +1,3 @@
-- alias: Temperaturüberwachung Wohnzimmer
-  trigger:
-    - platform: numeric_state
-      entity_id: sensor.wohnzimmer_temperature
-      below: 18
-  action:
-    - service: notify.telegram
-      data:
-        message: "Temperatur im Wohnzimmer ist unter 18 Grad."
-
 - alias: Switch nicht erreichbar
   trigger:
     - platform: state
@@ -18,4 +8,45 @@
       data:
         message: "Switch WC Heizung nicht mehr verbunden."
 
+##
+## Thermostate Überwachung
+##
+- alias: Thermostate in Paulina's Zimmer nicht erreichbar
+  trigger:
+    - platform: state
+      entity_id: climate.paulina
+      to: unavailable
+  action:
+    - service: notify.telegram
+      data:
+        message: "Thermostate in Paulina's Zimmer nicht mehr verbunden."
 
+- alias: Thermostate in Marie's Zimmer nicht erreichbar
+  trigger:
+    - platform: state
+      entity_id: climatem.marie
+      to: unavailable
+  action:
+    - service: notify.telegram
+      data:
+        message: "Thermostate in Marie's Zimmer nicht mehr verbunden."
+
+- alias: Thermostate in Jakob's Zimmer nicht erreichbar
+  trigger:
+    - platform: state
+      entity_id: climatem.jakob
+      to: unavailable
+  action:
+    - service: notify.telegram
+      data:
+        message: "Thermostate in Jakob's Zimmer nicht mehr verbunden."
+
+- alias: Thermostate im Badezimmer nicht erreichbar
+  trigger:
+    - platform: state
+      entity_id: climatem.badezimmer
+      to: unavailable
+  action:
+    - service: notify.telegram
+      data:
+        message: "Thermostate im Badezimmer nicht mehr verbunden."

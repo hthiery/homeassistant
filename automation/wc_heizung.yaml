@@ -7,9 +7,6 @@
       data:
         entity_id: climate.wc_heizung
         temperature: 21
-    - service: notify.telegram
-      data:
-        message: "Zieltemperatur im Gäste WC auf 21 Grad gesetzt."
 
 - alias: WC Temperatur um 8:30 auf Eco
   trigger:
@@ -20,9 +17,6 @@
       data:
         entity_id: climate.wc_heizung
         temperature: 19
-    - service: notify.telegram
-      data:
-        message: "Zieltemperatur im Gäste WC auf 19 Grad gesetzt."
 
 - alias: WC Temperatur um 12:00 auf Komfort
   trigger:
@@ -33,9 +27,6 @@
       data:
         entity_id: climate.wc_heizung
         temperature: 20
-    - service: notify.telegram
-      data:
-        message: "Zieltemperatur im Gäste WC auf 20 Grad gesetzt."
 
 - alias: WC Temperatur um 22:00 auf Eco
   trigger:
@@ -45,9 +36,4 @@
     - service: climate.set_temperature
       data:
         entity_id: climate.wc_heizung
-        temperature: 18
-    - service: notify.telegram
-      data:
-        message: "Zieltemperatur im Gäste WC auf 18 Grad gesetzt."
-
-
+        temperature: 16

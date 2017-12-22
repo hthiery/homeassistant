@@ -1,0 +1,59 @@
+- alias: Temperaturüberwachung Wohnzimmer
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.wohnzimmer_temperature
+      below: 18
+  action:
+    - service: notify.telegram
+      data:
+        message: "Temperatur im Wohnzimmer ist unter 18 Grad."
+
+- alias: Temperaturüberwachung Paulina
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.paulina_temperature
+      below: 15
+  action:
+    - service: notify.telegram
+      data:
+        message: "Temperatur in Paulina's Zimmer ist unter {{ states.sensor.paulina_temperature.state }} Grad."
+
+- alias: Temperaturüberwachung Marie
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.marie_temperature
+      below: 15
+  action:
+    - service: notify.telegram
+      data:
+        message: "Temperatur in Marie's Zimmer ist unter {{ states.sensor.marie_temperature.state }} Grad."
+
+- alias: Temperaturüberwachung Jakob 
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.jakob_temperature
+      below: 15
+  action:
+    - service: notify.telegram
+      data:
+        message: "Temperatur in Jakob's Zimmer ist unter {{ states.sensor.jakob_temperature.state }} Grad."
+
+- alias: Temperaturüberwachung Schlafzimmer
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.schlafzimmer_temperature
+      below: 15
+  action:
+    - service: notify.telegram
+      data:
+        message: "Temperatur im Schlafzimmer ist unter {{ states.sensor.schlafzimmer_temperature.state }} Grad."
+
+- alias: Temperaturüberwachung Badezimmer
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.badezimmer_temperature
+      below: 15
+  action:
+    - service: notify.telegram
+      data:
+        message: "Temperatur im Badezimmer ist unter {{ states.sensor.badezimmer_temperature.state }} Grad."
