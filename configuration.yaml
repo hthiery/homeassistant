@@ -64,6 +64,8 @@ group: !include groups.yaml
 
 sensor: !include sensors.yaml
 
+switch: !include switch.yaml
+
 script: !include scripts.yaml
 
 media_player:
@@ -115,27 +117,6 @@ fritzhome:
   host: 192.168.0.254
   username: !secret fritzhome_username
   password: !secret fritzhome_password
-
-#switch:
-#  - platform: fritzhome
-switch:
-  - platform: mqtt
-    name: "Sonoff power 1"
-    state_topic: "stat/sonoff-1/POWER"
-    command_topic: "cmnd/sonoff-1/POWER"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    retain: true
-
-  - platform: mqtt
-    name: "Sonoff power 2"
-    state_topic: "stat/sonoff-2/POWER"
-    command_topic: "cmnd/sonoff-2/POWER"
-    qos: 1
-    payload_on: "ON"
-    payload_off: "OFF"
-    retain: true
 
 influxdb:
 

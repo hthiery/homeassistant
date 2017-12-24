@@ -1,6 +1,6 @@
 - platform: generic_thermostat
   name: WC Heizung
-  heater: switch.wc_heizung
+  heater: switch.schalter_wc_heizung
   target_sensor: sensor.wc_temperature
   min_temp: 16
   max_temp: 22

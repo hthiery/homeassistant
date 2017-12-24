@@ -57,11 +57,11 @@ aussen:
 wc:
   name: Gäste WC
   entities:
-    - switch.wc_heizung
+    - switch.schalter_wc_heizung
     - sensor.wc_temperature
     - sensor.wc_humidity
     - sensor.wc_lacrosse_battery
-    - climate.wc_heizung
+    - climate.thermostat_wc_heizung
 
 wohnzimmer:
   name: Wohnzimmer
@@ -73,11 +73,14 @@ wohnzimmer:
     - media_player.kodi
     - media_player.samsung_tv_remote
     - sensor.tradfri_remote_control
+    - climate.thermostat_wohnzimmer_seite
+    - climate.thermostat_wohnzimmer_hinten
 
 kueche:
   name: Küche
   entities:
-    - switch.kaffeemaschine
+    - switch.schalter_kaffeemaschine
+    - group.weihnachts_lights
 
 wohnzimmer_lights:
   name: Wohnzimmer Licht
@@ -88,6 +91,12 @@ wohnzimmer_lights:
     - light.wohnzimmer_lampe_rechts_1
     - light.wohnzimmer_lampe_rechts_2
     - light.wohnzimmer_schrank
+
+weihnachts_lights:
+  name: Weihnachtsbeleuchtung
+  entities:
+    - switch.sonoff_power_1
+    - switch.sonoff_power_2
 
 abstellraum:
   name: Abstellraum
@@ -110,7 +119,7 @@ marie:
     - sensor.marie_temperature
     - sensor.marie_humidity
     - sensor.marie_lacrosse_battery
-    - climate.marie
+    - climate.thermostat_marie
 
 jakob:
   name: Jakob
@@ -118,7 +127,7 @@ jakob:
     - sensor.jakob_temperature
     - sensor.jakob_humidity
     - sensor.jakob_lacrosse_battery
-    - climate.jakob
+    - climate.thermostat_jakob
 
 paulina:
   name: Paulina
@@ -126,7 +135,7 @@ paulina:
     - sensor.paulina_temperature
     - sensor.paulina_humidity
     - sensor.paulina_lacrosse_battery
-    - climate.paulina
+    - climate.thermostat_paulina
 
 schlafzimmer:
   name: Schlafzimmer
@@ -138,7 +147,7 @@ schlafzimmer:
 badezimmer:
   name: Badezimmer
   entities:
-    - climate.badezimmer
+    - climate.thermostat_badezimmer
     - sensor.badezimmer_temperature
     - sensor.badezimmer_humidity
     - sensor.badezimmer_lacrosse_battery
