@@ -6,6 +6,8 @@ http://home-assistant.io/components/sensor.fritzhome/
 """
 import logging
 
+import requests
+
 from custom_components.fritzhome import (DOMAIN, ATTR_AIN, ATTR_FW_VERSION, ATTR_ID,
     ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
 from homeassistant.helpers.entity import Entity
@@ -61,8 +63,9 @@ class FritzhomePowerMeter(Entity):
         try:
             self._device.update()
             self._power = self._device.power
-        except Exception as exc:
-            _LOGGER.warning("Updating the state failed: %s", exc)
+        except requests.exceptions.HTTPError as ex:
+            _LOGGER.warning("Fritzhome connection error: %s", ex)
+            self._device._fritz.login()
             self._power = None
 
     @property

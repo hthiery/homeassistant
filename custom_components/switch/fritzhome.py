@@ -5,6 +5,9 @@ For more details about this component, please refer to the documentation at
 http://home-assistant.io/components/switch.fritzhome/
 """
 import logging
+
+import requests
+
 from custom_components.fritzhome import DOMAIN
 from homeassistant.components.switch import (SwitchDevice)
 
@@ -58,7 +61,11 @@ class FritzhomeSwitch(SwitchDevice):
 
     def update(self):
         """Get latest data and states from the device."""
-        self._device.update()
+        try:
+            self._device.update()
+        except requests.exceptions.HTTPError as ex:
+            _LOGGER.warning("Fritzhome connection error: %s", ex)
+            self._device._fritz.login()
 
     @property
     def current_power_w(self):
