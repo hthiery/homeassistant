@@ -1,53 +1,55 @@
 - platform: yr
+#- platform: fritzbox_netmonitor
+#  host: 192.168.0.254
 - platform: lacrosse
   sensors:
     aussen_temperature:
       name: Aussen Temperatur
       type: temperature
-      id: 200
+      id: 51
     aussen_lacrosse_battery:
       name: Aussen Sensor Batterie
       type: battery
-      id: 200
+      id: 51
 
     wc_humidity:
       name: WC Luftfeuchtigkeit
       type: humidity
-      id: 128
+      id: 22
     wc_temperature:
       name: WC Temperatur
       type: temperature
-      id: 128
+      id: 22
     wc_lacrosse_battery:
       name: WC Sensor Batterie
       type: battery
-      id: 128
+      id: 22
 
     abstellraum_humidity:
       name: Abstellraum Luftfeuchtigkeit
       type: humidity
-      id: 112
+      id: 49
     abstellraum_temperature:
       name: Abstellraum Temperatur
       type: temperature
-      id: 112
+      id: 49
     abstellraum_lacrosse_battery:
       name: Abstellraum Sensor Batterie
       type: battery
-      id: 112
+      id: 49
 
     wohnzimmer_humidity:
       name: Wohnzimmer Luftfeuchtigkeit
       type: humidity
-      id: 72
+      id: 9
     wohnzimmer_temperature:
       name: Wohnzimmer Temperatur
       type: temperature
-      id: 72
+      id: 9
     wohnzimmer_lacrosse_battery:
       name: Wohnzimmer Sensor Batterie
       type: battery
-      id: 72
+      id: 9
 
     keller_humidity:
       name: Keller Luftfeuchtigkeit
@@ -65,15 +67,15 @@
     badezimmer_humidity:
       name: Badezimmer Luftfeuchtigkeit
       type: humidity
-      id: 152
+      id: 26
     badezimmer_temperature:
       name: Badezimmer Temperatur
       type: temperature
-      id: 152
+      id: 26
     badezimmer_lacrosse_battery:
       name: Badezimmer Sensor Batterie
       type: battery
-      id: 152
+      id: 26
 
     paulina_humidity:
       name: Paulina Luftfeuchtigkeit
@@ -91,28 +93,28 @@
     marie_humidity:
       name: Marie Luftfeuchtigkeit
       type: humidity
-      id: 144
+      id: 18
     marie_temperature:
       name: Marie Temperatur
       type: temperature
-      id: 144
+      id: 18
     marie_lacrosse_battery:
       name: Marie Sensor Batterie
       type: battery
-      id: 144
+      id: 18
 
     jakob_humidity:
       name: Jakob Luftfeuchtigkeit
       type: humidity
-      id: 216
+      id: 27
     jakob_temperature:
       name: Jakob Temperatur
       type: temperature
-      id: 216
+      id: 27
     jakob_lacrosse_battery:
       name: Jakob Sensor Batterie
       type: battery
-      id: 216
+      id: 27
 
     schlafzimmer_humidity:
       name: Schlafzimmer Luftfeuchtigkeit

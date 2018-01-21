@@ -1,5 +1,5 @@
 - platform: generic_thermostat
-  name: WC Heizung
+  name: Thermostat WC Heizung
   heater: switch.schalter_wc_heizung
   target_sensor: sensor.wc_temperature
   min_temp: 16
@@ -9,3 +9,4 @@
   hot_tolerance: 0
   min_cycle_duration:
     minutes: 2
+  away_temp: 16

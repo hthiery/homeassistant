@@ -5,5 +5,5 @@
   action:
     - service: switch.turn_on
       data:
-        entity_id: switch.kaffeemaschine
+        entity_id: switch.schalter_kaffeemaschine
 
