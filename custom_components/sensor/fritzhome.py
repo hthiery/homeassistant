@@ -8,8 +8,7 @@ import logging
 
 import requests
 
-from custom_components.fritzhome import (DOMAIN, ATTR_AIN, ATTR_FW_VERSION, ATTR_ID,
-    ATTR_MANUFACTURER, ATTR_PRODUCTNAME)
+from custom_components.fritzhome import DOMAIN as FRITZHOME_DOMAIN
 from homeassistant.helpers.entity import Entity
 
 DEPENDENCIES = ['fritzhome']
@@ -19,16 +18,13 @@ _LOGGER = logging.getLogger(__name__)
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Setup the Fritzhome sensor component."""
-
-    if DOMAIN not in hass.data:
-        return False
-
-    device_list = hass.data[DOMAIN]
+    fritz = hass.data[FRITZHOME_DOMAIN]
+    device_list = fritz.get_devices()
 
     sensors = []
     for device in device_list:
         if device.has_powermeter:
-            sensors.append(FritzhomePowerMeter(hass, device, config))
+            sensors.append(FritzhomePowerMeter(device, config))
 
     if not sensors:
         _LOGGER.error("No sensors added")
@@ -42,11 +38,10 @@ class FritzhomePowerMeter(Entity):
     _power_in_watt = None
     _energy = None
 
-    def __init__(self, hass, device, config):
-        self.hass = hass
-        self._config = config
-        self._power = None
+    def __init__(self, device, fritz):
         self._device = device
+        self._fritz = fritz
+        self._power = None
 
     @property
     def available(self):
@@ -65,25 +60,13 @@ class FritzhomePowerMeter(Entity):
             self._power = self._device.power
         except requests.exceptions.HTTPError as ex:
             _LOGGER.warning("Fritzhome connection error: %s", ex)
-            self._device._fritz.login()
+            self._fritz.login()
             self._power = None
 
     @property
     def state(self):
         """Return the state of the sensor."""
         return self._power
-
-    @property
-    def device_state_attributes(self):
-        """Return the state attributes."""
-        attr = {
-            ATTR_AIN: self._device.ain,
-            ATTR_FW_VERSION: self._device.fw_version,
-            ATTR_ID: self._device.id,
-            ATTR_MANUFACTURER: self._device.manufacturer,
-            ATTR_PRODUCTNAME: self._device.productname,
-        }
-        return attr
 
     @property
     def unit_of_measurement(self):
