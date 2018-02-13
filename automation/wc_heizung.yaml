@@ -5,7 +5,7 @@
   action:
     - service: climate.set_temperature
       data:
-        entity_id: climate.wc_heizung
+        entity_id: climate.thermostat_wc_heizung
         temperature: 21
 
 - alias: WC Temperatur um 8:30 auf Eco
@@ -15,7 +15,7 @@
   action:
     - service: climate.set_temperature
       data:
-        entity_id: climate.wc_heizung
+        entity_id: climate.thermostat_wc_heizung
         temperature: 19
 
 - alias: WC Temperatur um 12:00 auf Komfort
@@ -25,7 +25,7 @@
   action:
     - service: climate.set_temperature
       data:
-        entity_id: climate.wc_heizung
+        entity_id: climate.thermostat_wc_heizung
         temperature: 20
 
 - alias: WC Temperatur um 22:00 auf Eco
@@ -35,5 +35,5 @@
   action:
     - service: climate.set_temperature
       data:
-        entity_id: climate.wc_heizung
+        entity_id: climate.thermostat_wc_heizung
         temperature: 16
