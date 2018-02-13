@@ -68,21 +68,7 @@ switch: !include switch.yaml
 
 script: !include scripts.yaml
 
-media_player:
-  - platform: samsungtv
-    host: 192.168.0.10
-    port: 8001
-  - platform: kodi
-    host: 192.168.0.11
-    turn_on_action:
-      - service: wake_on_lan.send_magic_packet
-        data:
-          mac: !secret kodi_mac
-    turn_off_action:
-      - service: media_player.kodi_call_method
-        data:
-          entity_id: media_player.kodi
-          method: System.Shutdown
+media_player: !include media_player.yaml
 
 wake_on_lan:
 
@@ -118,7 +104,7 @@ fritzhome:
   username: !secret fritzhome_username
   password: !secret fritzhome_password
 
-influxdb:
+#influxdb:
 
 mqtt:
   broker: 192.168.0.241
