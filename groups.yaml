@@ -68,6 +68,7 @@ esszimmer:
   name: Esszimmer
   entities:
     - climate.thermostat_esszimmer
+    - media_player.play_3_grau
 
 wohnzimmer:
   name: Wohnzimmer
@@ -78,6 +79,7 @@ wohnzimmer:
     - group.wohnzimmer_lights
     - media_player.kodi
     - media_player.samsung_tv_remote
+    - media_player.playstation_4
     - sensor.tradfri_remote_control
     - climate.thermostat_wohnzimmer_seite
     - climate.thermostat_wohnzimmer_hinten
