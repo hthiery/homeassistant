@@ -26,15 +26,15 @@ Since homeassistant release 0.58 the component is included.
 https://home-assistant.io/components/sensor.lacrosse/
 
 
-Fritzhome
-`````````
+Fritzbox
+````````
 
 Configuration
 '''''''''''''
 
 .. code-block:: yaml
 
-    fritzhome:
+    fritzbox:
       host: <FRITZBOX-IP>
       username: <SMARTHOME-USER>
       password: <SMARTHOME-PASSWORD>
