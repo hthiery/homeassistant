@@ -36,13 +36,15 @@ ATTR_STATE_LOW_BAT = 'low_battery'
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
     """Set up the Fritzbox smarthome thermostat platform."""
-    fritz = hass.data[FRITZBOX_DOMAIN]
-    device_list = fritz.get_devices()
-
     devices = []
-    for device in device_list:
-        if device.has_thermostat:
-            devices.append(FritzboxThermostat(device, fritz))
+    fritz_list = hass.data[FRITZBOX_DOMAIN]
+
+    for fritz in fritz_list:
+        device_list = fritz.get_devices()
+
+        for device in device_list:
+            if device.has_thermostat:
+                devices.append(FritzboxThermostat(device, fritz))
 
     add_devices(devices)
 

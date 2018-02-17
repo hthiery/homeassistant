@@ -35,9 +35,17 @@ Configuration
 .. code-block:: yaml
 
     fritzbox:
-      host: <FRITZBOX-IP>
-      username: <SMARTHOME-USER>
-      password: <SMARTHOME-PASSWORD>
+      devices:
+        - host: <FRITZBOX#1-IP>
+          username: <SMARTHOME#1-USER>
+          password: <SMARTHOME#1-PASSWORD>
+        - host: <FRITZBOX#2-IP>
+          username: <SMARTHOME#2-USER>
+          password: <SMARTHOME#2-PASSWORD>
+          :
+        - host: <FRITZBOX#N-IP>
+          username: <SMARTHOME#N-USER>
+          password: <SMARTHOME#N-PASSWORD>
 
     #Not needed any longer
     #climate:
