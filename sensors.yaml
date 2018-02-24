@@ -2,6 +2,7 @@
 #- platform: fritzbox_netmonitor
 #  host: 192.168.0.254
 - platform: lacrosse
+  led: false
   sensors:
     aussen_temperature:
       name: Aussen Temperatur
