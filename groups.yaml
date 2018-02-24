@@ -155,10 +155,10 @@ schlafzimmer:
 badezimmer:
   name: Badezimmer
   entities:
-    - climate.thermostat_badezimmer
     - sensor.badezimmer_temperature
     - sensor.badezimmer_humidity
     - sensor.badezimmer_lacrosse_battery
+    - climate.thermostat_badezimmer
 
 environment:
   name: Wetter
