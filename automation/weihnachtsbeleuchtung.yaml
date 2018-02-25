@@ -1,0 +1,35 @@
+#- alias: Weihnachtsbeleuchtung morgens einschalten
+#  trigger:
+#    platform: time
+#    at: '05:50:00'
+#  action:
+#    - service: switch.turn_on
+#      data:
+#        entity_id: group.weihnachts_lights
+#
+#- alias: Weihnachtsbeleuchtung morgens ausschalten
+#  trigger:
+#    platform: time
+#    at: '09:00:00'
+#  action:
+#    - service: switch.turn_off
+#      data:
+#        entity_id: group.weihnachts_lights
+#
+#- alias: Weihnachtsbeleuchtung abends einschalten
+#  trigger:
+#    platform: time
+#    at: '16:30:00'
+#  action:
+#    - service: switch.turn_on
+#      data:
+#        entity_id: group.weihnachts_lights
+#
+#- alias: Weihnachtsbeleuchtung abends ausschalten
+#  trigger:
+#    platform: time
+#    at: '23:00:00'
+#  action:
+#    - service: switch.turn_off
+#      data:
+#        entity_id: group.weihnachts_lights

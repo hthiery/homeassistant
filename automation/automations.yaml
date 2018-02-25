@@ -1,3 +1,13 @@
+- alias: Drucker ausschalten
+  trigger:
+    platform: time
+    at: '23:00:00'
+  action:
+    - service: switch.turn_off
+      data:
+        entity_id: swicht.sonoff_power_1
+
+
 - alias: Switch nicht erreichbar
   trigger:
     - platform: state
