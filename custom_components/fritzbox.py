@@ -16,19 +16,27 @@ from homeassistant.helpers import discovery
 
 _LOGGER = logging.getLogger(__name__)
 
-REQUIREMENTS = ['pyfritzhome==0.3.6']
+REQUIREMENTS = ['pyfritzhome==0.3.7']
 
 SUPPORTED_DOMAINS = ['climate', 'switch']
 
 DOMAIN = 'fritzbox'
 
-DEFAULT_HOST = 'fritz.box'
+ATTR_STATE_DEVICE_LOCKED = 'device_locked'
+ATTR_STATE_LOCKED = 'locked'
+ATTR_STATE_BATTERY_LOW = 'battery_low'
 
 
 CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
-        vol.Optional(CONF_DEVICES, default=[]):
-            vol.All(cv.ensure_list, [dict]),
+        vol.Required(CONF_DEVICES, default=[]):
+            vol.All(cv.ensure_list, [
+                vol.Schema({
+                    vol.Required(CONF_HOST): cv.string,
+                    vol.Required(CONF_PASSWORD): cv.string,
+                    vol.Required(CONF_USERNAME): cv.string,
+                }),
+            ]),
     })
 }, extra=vol.ALLOW_EXTRA)
 
@@ -39,23 +47,24 @@ def setup(hass, config):
 
     fritz_list = []
 
-    if CONF_DEVICES in config[DOMAIN] and config[DOMAIN].get(CONF_DEVICES):
-        configured_devices = config[DOMAIN].get(CONF_DEVICES)
-        for device in configured_devices:
-            try:
-                host = device['host']
-                username = device['username']
-                password = device['password']
-                fritzbox = Fritzhome(host=host, user=username, password=password)
-                fritzbox.login()
-                fritz_list.append(fritzbox)
-                _LOGGER.info("Connected to device %s", device)
-            except LoginError:
-                _LOGGER.warning("Login to Fritz!Box %s as %s failed", host, username)
-                continue
-            except KeyError:
-                _LOGGER.warning("Configuration error")
-                continue
+    configured_devices = config[DOMAIN].get(CONF_DEVICES)
+    for device in configured_devices:
+        try:
+            host = device.get(CONF_HOST)
+            username = device.get(CONF_USERNAME)
+            password = device.get(CONF_PASSWORD)
+            fritzbox = Fritzhome(host=host, user=username,
+                                 password=password)
+            fritzbox.login()
+            fritz_list.append(fritzbox)
+            _LOGGER.info("Connected to device %s", device)
+        except LoginError:
+            _LOGGER.warning("Login to Fritz!Box %s as %s failed",
+                            host, username)
+            continue
+
+    if not fritz_list:
+        return False
 
     hass.data[DOMAIN] = fritz_list
 
@@ -68,7 +77,5 @@ def setup(hass, config):
 
     for domain in SUPPORTED_DOMAINS:
         discovery.load_platform(hass, domain, DOMAIN, {}, config)
-
-    _LOGGER.info('Connected to fritzbox')
 
     return True

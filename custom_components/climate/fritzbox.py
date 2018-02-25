@@ -9,29 +9,26 @@ import logging
 import requests
 
 from custom_components.fritzbox import DOMAIN as FRITZBOX_DOMAIN
+from custom_components.fritzbox import (
+    ATTR_STATE_DEVICE_LOCKED, ATTR_STATE_BATTERY_LOW, ATTR_STATE_LOCKED)
 from homeassistant.components.climate import (
-    ATTR_OPERATION_MODE, ClimateDevice, STATE_ECO,
+    ATTR_OPERATION_MODE, ClimateDevice, STATE_ECO, STATE_HEAT,
     SUPPORT_OPERATION_MODE, SUPPORT_TARGET_TEMPERATURE)
-from homeassistant.const import (PRECISION_HALVES)
-from homeassistant.const import (TEMP_CELSIUS, ATTR_TEMPERATURE)
+from homeassistant.const import (
+    ATTR_TEMPERATURE, PRECISION_HALVES, TEMP_CELSIUS)
 
 DEPENDENCIES = ['fritzbox']
 
 _LOGGER = logging.getLogger(__name__)
 
-STATE_COMFORT = 'comfort'
 STATE_MANUAL = 'manual'
 
 SUPPORT_FLAGS = (SUPPORT_TARGET_TEMPERATURE | SUPPORT_OPERATION_MODE)
 
-OPERATION_LIST = [STATE_COMFORT, STATE_ECO, STATE_MANUAL]
+OPERATION_LIST = [STATE_HEAT, STATE_ECO]
 
 MIN_TEMPERATURE = 8
 MAX_TEMPERATURE = 28
-
-ATTR_STATE_DEVICE_LOCKED = 'device_locked'
-ATTR_STATE_LOCKED = 'locked'
-ATTR_STATE_LOW_BAT = 'low_battery'
 
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
@@ -41,7 +38,6 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
 
     for fritz in fritz_list:
         device_list = fritz.get_devices()
-
         for device in device_list:
             if device.has_thermostat:
                 devices.append(FritzboxThermostat(device, fritz))
@@ -98,20 +94,18 @@ class FritzboxThermostat(ClimateDevice):
 
     def set_temperature(self, **kwargs):
         """Set new target temperature."""
-        if kwargs.get(ATTR_OPERATION_MODE) is not None:
+        if ATTR_OPERATION_MODE in kwargs:
             operation_mode = kwargs.get(ATTR_OPERATION_MODE)
             self.set_operation_mode(operation_mode)
-        elif kwargs.get(ATTR_TEMPERATURE) is not None:
+        elif ATTR_TEMPERATURE in kwargs:
             temperature = kwargs.get(ATTR_TEMPERATURE)
             self._device.set_target_temperature(temperature)
 
     @property
     def current_operation(self):
         """Return the current operation mode."""
-        if not self.available:
-            return None
         if self._target_temperature == self._comfort_temperature:
-            return STATE_COMFORT
+            return STATE_HEAT
         elif self._target_temperature == self._eco_temperature:
             return STATE_ECO
         return STATE_MANUAL
@@ -123,7 +117,7 @@ class FritzboxThermostat(ClimateDevice):
 
     def set_operation_mode(self, operation_mode):
         """Set new operation mode."""
-        if operation_mode == STATE_COMFORT:
+        if operation_mode == STATE_HEAT:
             self.set_temperature(temperature=self._comfort_temperature)
         elif operation_mode == STATE_ECO:
             self.set_temperature(temperature=self._eco_temperature)
@@ -141,12 +135,12 @@ class FritzboxThermostat(ClimateDevice):
     @property
     def device_state_attributes(self):
         """Return the device specific state attributes."""
-        dev_specific = {
+        attrs = {
             ATTR_STATE_DEVICE_LOCKED: self._device.device_lock,
             ATTR_STATE_LOCKED: self._device.lock,
-            ATTR_STATE_LOW_BAT: self._device.battery_low,
+            ATTR_STATE_BATTERY_LOW: self._device.battery_low,
         }
-        return dev_specific
+        return attrs
 
     def update(self):
         """Update the data from the thermostat."""
