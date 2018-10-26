@@ -70,6 +70,10 @@ script: !include scripts.yaml
 
 media_player: !include media_player.yaml
 
+sonos:
+  media_player:
+    hosts: 192.168.0.114
+
 wake_on_lan:
 
 device_tracker:
@@ -99,10 +103,11 @@ notify:
 #    homeassistant.components.sensor.lacrosse: info
 #    homeassistant.components.fritzhome: info
 
-fritzhome:
-  host: 192.168.0.254
-  username: !secret fritzhome_username
-  password: !secret fritzhome_password
+fritzbox:
+  devices:
+    - host: 192.168.0.254
+      username: !secret fritzhome_username
+      password: !secret fritzhome_password
 
 #influxdb:
 
