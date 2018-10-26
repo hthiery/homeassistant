@@ -1,11 +1,125 @@
-- platform: yr
+#- platform: yr
 #- platform: fritzbox_netmonitor
 #  host: 192.168.0.254
+
+- platform: template
+  sensors:
+    wc_heizung_stromverbrauch:
+      value_template: "{{ state_attr('switch.schalter_wc_heizung', 'current_power_w') | float }}"
+      unit_of_measurement: 'W'
+      friendly_name: 'WC Heizung Stromverbrauch'
+
+    wc_heizung_gesamt_stromverbrauch:
+      value_template: "{{ state_attr('switch.schalter_wc_heizung', 'total_consumption') }}"
+      unit_of_measurement: 'kWh'
+      friendly_name: 'WC Heizung Gesamt Stromverbrauch'
+
+    trockner_stromverbrauch:
+      value_template: "{{ state_attr('switch.keller_trockner', 'current_power_w') | float }}"
+      unit_of_measurement: 'W'
+      friendly_name: 'Trockner Stromverbrauch'
+
+    trockner_gesamt_stromverbrauch:
+      value_template: "{{ state_attr('switch.keller_trockner', 'total_consumption') }}"
+      unit_of_measurement: 'kWh'
+      friendly_name: 'Trockner Gesamt Stromverbrauch'
+
+    status_trockner:
+        friendly_name: 'Trockner'
+        value_template: >-
+          {% if states('sensor.trockner_stromverbrauch')|float <= 0 %}
+            Aus
+          {% elif states('sensor.trockner_stromverbrauch')|float < 100 %}
+            Fertig
+          {% elif states('sensor.trockner_stromverbrauch')|float >= 100 %}
+            Trocknet
+          {% else %}
+            PRÜFEN!
+          {% endif %}
+
+- platform: filter
+  name: "Aussen Temperature"
+  entity_id: sensor.aussen_temperature_raw
+  filters:
+    - filter: outlier
+    - filter: lowpass
+
+- platform: filter
+  name: "Esszimmer Temperature"
+  entity_id: sensor.esszimmer_temperature_raw
+  filters:
+    - filter: outlier
+    - filter: lowpass
+
+- platform: filter
+  name: "Marie Temperature"
+  entity_id: sensor.marie_temperature_raw
+  filters:
+    - filter: outlier
+    - filter: lowpass
+
+- platform: filter
+  name: "WC Temperature"
+  entity_id: sensor.wc_temperature_raw
+  filters:
+    - filter: outlier
+    - filter: lowpass
+
+- platform: filter
+  name: "Abstellraum Temperature"
+  entity_id: sensor.abstellraum_temperature_raw
+  filters:
+    - filter: outlier
+    - filter: lowpass
+
+- platform: filter
+  name: "Wohnzimmer Temperature"
+  entity_id: sensor.wohnzimmer_temperature_raw
+  filters:
+    - filter: outlier
+    - filter: lowpass
+
+- platform: filter
+  name: "Keller Temperature"
+  entity_id: sensor.keller_temperature_raw
+  filters:
+    - filter: outlier
+    - filter: lowpass
+
+- platform: filter
+  name: "Badezimmer Temperature"
+  entity_id: sensor.badezimmer_temperature_raw
+  filters:
+    - filter: outlier
+    - filter: lowpass
+
+- platform: filter
+  name: "Paulina Temperature"
+  entity_id: sensor.paulina_temperature_raw
+  filters:
+    - filter: outlier
+    - filter: lowpass
+
+- platform: filter
+  name: "Jakob Temperature"
+  entity_id: sensor.jakob_temperature_raw
+  filters:
+    - filter: outlier
+    - filter: lowpass
+
+- platform: filter
+  name: "Schlafzimmer Temperature"
+  entity_id: sensor.schlafzimmer_temperature_raw
+  filters:
+    - filter: outlier
+    - filter: lowpass
+
 - platform: lacrosse
+  device: /dev/ttyUSB1
   led: false
   sensors:
-    aussen_temperature:
-      name: Aussen Temperatur
+    aussen_temperature_raw:
+      name: Aussen Temperatur Raw
       type: temperature
       id: 51
     aussen_lacrosse_battery:
@@ -13,12 +127,25 @@
       type: battery
       id: 51
 
+    esszimmer_humidity:
+      name: Esszimmer Luftfeuchtigkeit
+      type: humidity
+      id: 8
+    esszimmer_temperature_raw:
+      name: Esszimmer Temperatur Raw
+      type: temperature
+      id: 8
+    esszimmer_lacrosse_battery:
+      name: Esszimmer Sensor Batterie
+      type: battery
+      id: 8
+
     wc_humidity:
       name: WC Luftfeuchtigkeit
       type: humidity
       id: 22
-    wc_temperature:
-      name: WC Temperatur
+    wc_temperature_raw:
+      name: WC Temperatur Raw
       type: temperature
       id: 22
     wc_lacrosse_battery:
@@ -30,8 +157,8 @@
       name: Abstellraum Luftfeuchtigkeit
       type: humidity
       id: 49
-    abstellraum_temperature:
-      name: Abstellraum Temperatur
+    abstellraum_temperature_raw:
+      name: Abstellraum Temperatur Raw
       type: temperature
       id: 49
     abstellraum_lacrosse_battery:
@@ -43,8 +170,8 @@
       name: Wohnzimmer Luftfeuchtigkeit
       type: humidity
       id: 9
-    wohnzimmer_temperature:
-      name: Wohnzimmer Temperatur
+    wohnzimmer_temperature_raw:
+      name: Wohnzimmer Temperatur Raw
       type: temperature
       id: 9
     wohnzimmer_lacrosse_battery:
@@ -56,8 +183,8 @@
       name: Keller Luftfeuchtigkeit
       type: humidity
       id: 0
-    keller_temperature:
-      name: Keller Temperatur
+    keller_temperature_raw:
+      name: Keller Temperatur Raw
       type: temperature
       id: 0
     keller_lacrosse_battery:
@@ -69,8 +196,8 @@
       name: Badezimmer Luftfeuchtigkeit
       type: humidity
       id: 26
-    badezimmer_temperature:
-      name: Badezimmer Temperatur
+    badezimmer_temperature_raw:
+      name: Badezimmer Temperatur Raw
       type: temperature
       id: 26
     badezimmer_lacrosse_battery:
@@ -82,8 +209,8 @@
       name: Paulina Luftfeuchtigkeit
       type: humidity
       id: 16
-    paulina_temperature:
-      name: Paulina Temperatur
+    paulina_temperature_raw:
+      name: Paulina Temperatur Raw
       type: temperature
       id: 16
     paulina_lacrosse_battery:
@@ -95,8 +222,8 @@
       name: Marie Luftfeuchtigkeit
       type: humidity
       id: 18
-    marie_temperature:
-      name: Marie Temperatur
+    marie_temperature_raw:
+      name: Marie Temperatur Raw
       type: temperature
       id: 18
     marie_lacrosse_battery:
@@ -108,8 +235,8 @@
       name: Jakob Luftfeuchtigkeit
       type: humidity
       id: 27
-    jakob_temperature:
-      name: Jakob Temperatur
+    jakob_temperature_raw:
+      name: Jakob Temperatur Raw
       type: temperature
       id: 27
     jakob_lacrosse_battery:
@@ -120,12 +247,12 @@
     schlafzimmer_humidity:
       name: Schlafzimmer Luftfeuchtigkeit
       type: humidity
-      id: 40
-    schlafzimmer_temperature:
-      name: Schlafzimmer Temperatur
+      id: 39
+    schlafzimmer_temperature_raw:
+      name: Schlafzimmer Temperatur Raw
       type: temperature
-      id: 40
+      id: 39
     schlafzimmer_lacrosse_battery:
       name: Schlafzimmer Sensor Batterie
       type: battery
-      id: 40
+      id: 39

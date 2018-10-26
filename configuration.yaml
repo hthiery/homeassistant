@@ -88,14 +88,18 @@ tradfri:
 
 telegram_bot:
   - platform: polling
-    api_key: 459917695:AAEURey8GAOcqGA3pNxfMnMqe1guxaKQtdE
+    api_key: !secret telegram_api_key
     allowed_chat_ids:
-      - !secret telegram_chat_id
+      - !secret telegram_chat_id_heiko
+      - !secret telegram_chat_id_simone
 
 notify:
   - name: telegram
     platform: telegram
-    chat_id: !secret telegram_chat_id
+    chat_id: !secret telegram_chat_id_heiko
+  - name: telegram_simone
+    platform: telegram
+    chat_id: !secret telegram_chat_id_simone
 
 #logger:
 #  default: error

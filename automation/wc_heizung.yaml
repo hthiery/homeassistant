@@ -1,4 +1,6 @@
 - alias: WC Temperatur um 5:15 auf Komfort
+  initial_state: True
+  hide_entity: true
   trigger:
     - platform: time
       at: '05:15:00'
@@ -9,6 +11,8 @@
         temperature: 21
 
 - alias: WC Temperatur um 8:30 auf Eco
+  initial_state: True
+  hide_entity: true
   trigger:
     - platform: time
       at: '08:30:00'
@@ -19,6 +23,8 @@
         temperature: 19
 
 - alias: WC Temperatur um 12:00 auf Komfort
+  initial_state: True
+  hide_entity: true
   trigger:
     - platform: time
       at: '12:30:00'
@@ -29,6 +35,8 @@
         temperature: 20
 
 - alias: WC Temperatur um 22:00 auf Eco
+  initial_state: True
+  hide_entity: true
   trigger:
     - platform: time
       at: '22:00:00'

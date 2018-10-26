@@ -63,10 +63,17 @@ wc:
     - sensor.wc_humidity
     - sensor.wc_lacrosse_battery
     - climate.thermostat_wc_heizung
+    - binary_sensor.wc_fenster
+    - sensor.wc_heizung_stromverbrauch
+    - sensor.wc_heizung_gesamt_stromverbrauch
 
 esszimmer:
   name: Esszimmer
   entities:
+    - switch.sonoff_power_2
+    - sensor.esszimmer_temperature
+    - sensor.esszimmer_humidity
+    - sensor.esszimmer_lacrosse_battery
     - climate.thermostat_esszimmer
     - media_player.play_3_grau
 
@@ -84,11 +91,9 @@ wohnzimmer:
     - climate.thermostat_wohnzimmer_seite
     - climate.thermostat_wohnzimmer_hinten
 
-kueche:
-  name: Küche
-  entities:
-    - switch.schalter_kaffeemaschine
-    - group.weihnachts_lights
+#kueche:
+#  name: Küche
+#  entities:
 
 wohnzimmer_lights:
   name: Wohnzimmer Licht
@@ -100,12 +105,6 @@ wohnzimmer_lights:
     - light.wohnzimmer_lampe_rechts_2
     - light.wohnzimmer_schrank
 
-weihnachts_lights:
-  name: Weihnachtsbeleuchtung
-  entities:
-    - switch.sonoff_power_1
-    - switch.sonoff_power_2
-
 abstellraum:
   name: Abstellraum
   entities:
@@ -116,6 +115,11 @@ abstellraum:
 keller:
   name: Keller
   entities:
+    - switch.sonoff_power_1
+    - switch.keller_trockner
+    - sensor.status_trockner
+    - sensor.trockner_stromverbrauch
+    - sensor.trockner_gesamt_stromverbrauch
     - sensor.keller_temperature
     - sensor.keller_humidity
     - sensor.keller_lacrosse_battery

@@ -5,10 +5,29 @@
   action:
     - service: switch.turn_off
       data:
-        entity_id: swicht.sonoff_power_1
+        entity_id: switch.sonoff_power_1
+
+- alias: Sonos ausschalten
+  trigger:
+    platform: time
+    at: '20:30:00'
+  action:
+    - service: switch.turn_off
+      data:
+        entity_id: switch.sonoff_power_2
+
+- alias: Sonos einschalten
+  trigger:
+    platform: time
+    at: '06:00:00'
+  action:
+    - service: switch.turn_on
+      data:
+        entity_id: switch.sonoff_power_2
 
 
 - alias: Switch nicht erreichbar
+  hide_entity: true
   trigger:
     - platform: state
       entity_id: switch.wc_heizung
@@ -22,6 +41,7 @@
 ## Thermostate Überwachung
 ##
 - alias: Thermostate in Paulina's Zimmer nicht erreichbar
+  hide_entity: true
   trigger:
     - platform: state
       entity_id: climate.paulina
@@ -32,6 +52,7 @@
         message: "Thermostate in Paulina's Zimmer nicht mehr verbunden."
 
 - alias: Thermostate in Marie's Zimmer nicht erreichbar
+  hide_entity: true
   trigger:
     - platform: state
       entity_id: climatem.marie
@@ -42,6 +63,7 @@
         message: "Thermostate in Marie's Zimmer nicht mehr verbunden."
 
 - alias: Thermostate in Jakob's Zimmer nicht erreichbar
+  hide_entity: true
   trigger:
     - platform: state
       entity_id: climatem.jakob
@@ -52,6 +74,7 @@
         message: "Thermostate in Jakob's Zimmer nicht mehr verbunden."
 
 - alias: Thermostate im Badezimmer nicht erreichbar
+  hide_entity: true
   trigger:
     - platform: state
       entity_id: climatem.badezimmer
