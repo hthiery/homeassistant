@@ -24,4 +24,3 @@
     - service: notify.telegram_simone
       data:
         message: "*Trockner* ist fertig!!!"
-#        message: "*Gäste WC Fenster* seit 15 Minuten auf!!!"
