@@ -1,0 +1,54 @@
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+    package.node_anchors:
+      customize: &customize
+        package: 'fritzbox_climate'
+
+
+group:
+  thermostats:
+    view: yes
+    entities:
+      - climate.thermostat_wohnzimmer_hinten
+      - climate.thermostat_wohnzimmer_seite
+      - climate.thermostat_esszimmer
+      - climate.thermostat_jakob
+      - climate.thermostat_paulina
+      - climate.thermostat_marie
+      - climate.thermostat_badezimmer
+
+
+sensor:
+  - platform: template
+    sensors:
+      thermostate_wohnzimmer_hinten_battery:
+        value_template: "{{ state_attr('climate.thermostat_wohnzimmer_hinten', 'battery_level') | float }}"
+        unit_of_measurement: '%'
+        friendly_name: 'Thermostat Wohnzimmer Hinten Batterie'
+      thermostate_wohnzimmer_seite_battery:
+        value_template: "{{ state_attr('climate.thermostat_wohnzimmer_seite', 'battery_level') | float }}"
+        unit_of_measurement: '%'
+        friendly_name: 'Thermostat Wohnzimmer Seite Batterie'
+      thermostate_esszimmer_battery:
+        value_template: "{{ state_attr('climate.thermostat_esszimmer', 'battery_level') | float }}"
+        unit_of_measurement: '%'
+        friendly_name: 'Thermostat Esszimmer Batterie'
+      thermostate_jakob_battery:
+        value_template: "{{ state_attr('climate.thermostat_jakob', 'battery_level') | float }}"
+        unit_of_measurement: '%'
+        friendly_name: 'Thermostat Jakob Batterie'
+      thermostate_paulina_battery:
+        value_template: "{{ state_attr('climate.thermostat_paulina', 'battery_level') | float }}"
+        unit_of_measurement: '%'
+        friendly_name: 'Thermostat Paulina Batterie'
+      thermostate_marie_battery:
+        value_template: "{{ state_attr('climate.thermostat_marie', 'battery_level') | float }}"
+        unit_of_measurement: '%'
+        friendly_name: 'Thermostat Marie Batterie'
+      thermostate_badezimmer_battery:
+        value_template: "{{ state_attr('climate.thermostat_badezimmer', 'battery_level') | float }}"
+        unit_of_measurement: '%'
+        friendly_name: 'Thermostat Badezimmer Batterie'

@@ -1,0 +1,341 @@
+homeassistant:
+  customize:
+    ################################################
+    ## Node Anchors
+    ################################################
+    package.node_anchors:
+      customize: &customize
+        package: 'lacrosse_sensor'
+
+
+group:
+  lacrosse:
+    entities:
+      - sensor.aussen_temperature_raw
+      - sensor.esszimmer_humidity_raw
+      - sensor.esszimmer_temperature_raw
+      - sensor.wc_humidity_raw
+      - sensor.wc_temperature_raw
+      - sensor.abstellraum_humidity_raw
+      - sensor.abstellraum_temperature_raw
+      - sensor.wohnzimmer_humidity_raw
+      - sensor.wohnzimmer_temperature_raw
+      - sensor.keller_humidity_raw
+      - sensor.keller_temperature_raw
+      - sensor.badezimmer_humidity_raw
+      - sensor.badezimmer_temperature_raw
+      - sensor.paulina_humidity_raw
+      - sensor.paulina_temperature_raw
+      - sensor.marie_humidity_raw
+      - sensor.marie_temperature_raw
+      - sensor.jakob_humidity_raw
+      - sensor.jakob_temperature_raw
+      - sensor.jakob_lacrosse_battery
+      - sensor.schlafzimmer_humidity_raw
+      - sensor.schlafzimmer_temperature_raw
+
+
+sensor:
+  - platform: filter
+    name: "Aussen Temperature"
+    entity_id: sensor.aussen_temperature_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+  
+  - platform: filter
+    name: "Esszimmer Temperature"
+    entity_id: sensor.esszimmer_temperature_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+  
+  - platform: filter
+    name: "Marie Temperature"
+    entity_id: sensor.marie_temperature_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+  
+  - platform: filter
+    name: "WC Temperature"
+    entity_id: sensor.wc_temperature_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+  
+  - platform: filter
+    name: "Abstellraum Temperature"
+    entity_id: sensor.abstellraum_temperature_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+  
+  - platform: filter
+    name: "Wohnzimmer Temperature"
+    entity_id: sensor.wohnzimmer_temperature_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+  
+  - platform: filter
+    name: "Keller Temperature"
+    entity_id: sensor.keller_temperature_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+  
+  - platform: filter
+    name: "Badezimmer Temperature"
+    entity_id: sensor.badezimmer_temperature_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+  
+  - platform: filter
+    name: "Paulina Temperature"
+    entity_id: sensor.paulina_temperature_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+  
+  - platform: filter
+    name: "Jakob Temperature"
+    entity_id: sensor.jakob_temperature_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+  
+  - platform: filter
+    name: "Schlafzimmer Temperature"
+    entity_id: sensor.schlafzimmer_temperature_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+  
+  
+  
+  - platform: filter
+    name: "Esszimmer Luftfeuchtigkeit"
+    entity_id: sensor.esszimmer_humidity_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+        precision: 1
+  
+  - platform: filter
+    name: "WC Luftfeuchtigkeit"
+    entity_id: sensor.wc_humidity_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+        precision: 1
+  
+  - platform: filter
+    name: "Abstellraum Luftfeuchtigkeit"
+    entity_id: sensor.abstellraum_humidity_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+        precision: 1
+  
+  - platform: filter
+    name: "Wohnzimmer Luftfeuchtigkeit"
+    entity_id: sensor.wohnzimmer_humidity_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+        precision: 1
+  
+  - platform: filter
+    name: "Keller Luftfeuchtigkeit"
+    entity_id: sensor.keller_humidity_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+        precision: 1
+  
+  - platform: filter
+    name: "Badezimmer Luftfeuchtigkeit"
+    entity_id: sensor.badezimmer_humidity_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+        precision: 1
+  
+  - platform: filter
+    name: "Paulina Luftfeuchtigkeit"
+    entity_id: sensor.paulina_humidity_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+        precision: 1
+  
+  - platform: filter
+    name: "Marie Luftfeuchtigkeit"
+    entity_id: sensor.marie_humidity_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+        precision: 1
+  
+  - platform: filter
+    name: "Jakob Luftfeuchtigkeit"
+    entity_id: sensor.jakob_humidity_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+        precision: 1
+  
+  - platform: filter
+    name: "Schlafzimmer Luftfeuchtigkeit"
+    entity_id: sensor.schlafzimmer_humidity_raw
+    filters:
+      - filter: outlier
+      - filter: lowpass
+        precision: 1
+  
+  
+  
+  - platform: lacrosse
+    device: /dev/ttyUSB1
+    led: false
+    sensors:
+      aussen_temperature_raw:
+        name: Aussen Temperatur Raw
+        type: temperature
+        id: 51
+      aussen_lacrosse_battery:
+        name: Aussen Sensor Batterie
+        type: battery
+        id: 51
+  
+      esszimmer_humidity_raw:
+        name: Esszimmer Luftfeuchtigkeit Raw
+        type: humidity
+        id: 8
+      esszimmer_temperature_raw:
+        name: Esszimmer Temperatur Raw
+        type: temperature
+        id: 8
+      esszimmer_lacrosse_battery:
+        name: Esszimmer Sensor Batterie
+        type: battery
+        id: 8
+  
+      wc_humidity_raw:
+        name: WC Luftfeuchtigkeit Raw
+        type: humidity
+        id: 22
+      wc_temperature_raw:
+        name: WC Temperatur Raw
+        type: temperature
+        id: 22
+      wc_lacrosse_battery:
+        name: WC Sensor Batterie
+        type: battery
+        id: 22
+  
+      abstellraum_humidity_raw:
+        name: Abstellraum Luftfeuchtigkeit Raw
+        type: humidity
+        id: 49
+      abstellraum_temperature_raw:
+        name: Abstellraum Temperatur Raw
+        type: temperature
+        id: 49
+      abstellraum_lacrosse_battery:
+        name: Abstellraum Sensor Batterie
+        type: battery
+        id: 49
+  
+      wohnzimmer_humidity_raw:
+        name: Wohnzimmer Luftfeuchtigkeit Raw
+        type: humidity
+        id: 9
+      wohnzimmer_temperature_raw:
+        name: Wohnzimmer Temperatur Raw
+        type: temperature
+        id: 9
+      wohnzimmer_lacrosse_battery:
+        name: Wohnzimmer Sensor Batterie
+        type: battery
+        id: 9
+  
+      keller_humidity_raw:
+        name: Keller Luftfeuchtigkeit Raw
+        type: humidity
+        id: 0
+      keller_temperature_raw:
+        name: Keller Temperatur Raw
+        type: temperature
+        id: 0
+      keller_lacrosse_battery:
+        name: Keller Sensor Batterie
+        type: battery
+        id: 0
+  
+      badezimmer_humidity_raw:
+        name: Badezimmer Luftfeuchtigkeit Raw
+        type: humidity
+        id: 26
+      badezimmer_temperature_raw:
+        name: Badezimmer Temperatur Raw
+        type: temperature
+        id: 26
+      badezimmer_lacrosse_battery:
+        name: Badezimmer Sensor Batterie
+        type: battery
+        id: 26
+  
+      paulina_humidity_raw:
+        name: Paulina Luftfeuchtigkeit Raw
+        type: humidity
+        id: 16
+      paulina_temperature_raw:
+        name: Paulina Temperatur Raw
+        type: temperature
+        id: 16
+      paulina_lacrosse_battery:
+        name: Paulina Sensor Batterie
+        type: battery
+        id: 16
+  
+      marie_humidity_raw:
+        name: Marie Luftfeuchtigkeit Raw
+        type: humidity
+        id: 18
+      marie_temperature_raw:
+        name: Marie Temperatur Raw
+        type: temperature
+        id: 18
+      marie_lacrosse_battery:
+        name: Marie Sensor Batterie
+        type: battery
+        id: 18
+  
+      jakob_humidity_raw:
+        name: Jakob Luftfeuchtigkeit Raw
+        type: humidity
+        id: 27
+      jakob_temperature_raw:
+        name: Jakob Temperatur Raw
+        type: temperature
+        id: 27
+      jakob_lacrosse_battery:
+        name: Jakob Sensor Batterie
+        type: battery
+        id: 27
+  
+      schlafzimmer_humidity_raw:
+        name: Schlafzimmer Luftfeuchtigkeit Raw
+        type: humidity
+        id: 39
+      schlafzimmer_temperature_raw:
+        name: Schlafzimmer Temperatur Raw
+        type: temperature
+        id: 39
+      schlafzimmer_lacrosse_battery:
+        name: Schlafzimmer Sensor Batterie
+        type: battery
+        id: 39

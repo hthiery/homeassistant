@@ -1,9 +1,8 @@
-- alias: Kaffeemaschine einschalten
-  trigger:
-    platform: time
-    at: '05:50:00'
-  action:
-    - service: switch.turn_on
-      data:
-        entity_id: switch.schalter_kaffeemaschine
-
+#- alias: Kaffeemaschine einschalten
+#  trigger:
+#    platform: time
+#    at: '05:50:00'
+#  action:
+#    - service: switch.turn_on
+#      data:
+#        entity_id: switch.schalter_kaffeemaschine

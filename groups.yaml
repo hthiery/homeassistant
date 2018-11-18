@@ -15,6 +15,7 @@ family_view:
     - device_tracker.heiko_handy_nexus5x
     - device_tracker.simone_handy_nexus5x
     - device_tracker.marie_handy_moto_g
+    - device_tracker.paulina_handy_redmi5redmi
 
 aussen_view:
   name: Aussen
@@ -47,6 +48,7 @@ keller_view:
   view: yes
   entities:
     - group.keller
+    - group.buero
 
 ### GROUPS
 aussen:
@@ -60,7 +62,7 @@ wc:
   entities:
     - switch.schalter_wc_heizung
     - sensor.wc_temperature
-    - sensor.wc_humidity
+    - sensor.wc_luftfeuchtigkeit
     - sensor.wc_lacrosse_battery
     - climate.thermostat_wc_heizung
     - binary_sensor.wc_fenster
@@ -72,7 +74,7 @@ esszimmer:
   entities:
     - switch.sonoff_power_2
     - sensor.esszimmer_temperature
-    - sensor.esszimmer_humidity
+    - sensor.esszimmer_luftfeuchtigkeit
     - sensor.esszimmer_lacrosse_battery
     - climate.thermostat_esszimmer
     - media_player.play_3_grau
@@ -81,15 +83,17 @@ wohnzimmer:
   name: Wohnzimmer
   entities:
     - sensor.wohnzimmer_temperature
-    - sensor.wohnzimmer_humidity
+    - sensor.wohnzimmer_luftfeuchtigkeit
     - sensor.wohnzimmer_lacrosse_battery
     - group.wohnzimmer_lights
     - media_player.kodi
     - media_player.samsung_tv_remote
-    - media_player.playstation_4
     - sensor.tradfri_remote_control
     - climate.thermostat_wohnzimmer_seite
     - climate.thermostat_wohnzimmer_hinten
+    - device_tracker.wohnzimmer_firetv_1
+    - device_tracker.wohnzimmer_firetv_2
+    - device_tracker.tvsamsung6series65
 
 #kueche:
 #  name: Küche
@@ -109,7 +113,7 @@ abstellraum:
   name: Abstellraum
   entities:
     - sensor.abstellraum_temperature
-    - sensor.abstellraum_humidity
+    - sensor.abstellraum_luftfeuchtigkeit
     - sensor.abstellraum_lacrosse_battery
 
 keller:
@@ -121,23 +125,33 @@ keller:
     - sensor.trockner_stromverbrauch
     - sensor.trockner_gesamt_stromverbrauch
     - sensor.keller_temperature
-    - sensor.keller_humidity
+    - sensor.keller_luftfeuchtigkeit
     - sensor.keller_lacrosse_battery
+
+buero:
+  name: Büro
+  entities:
+    - device_tracker.keller_drucker
+    - device_tracker.office01
+    - device_tracker.server
+    - device_tracker.raspberrypi
+    - sensor.pihole_ads_blocked_today
 
 
 marie:
   name: Marie
   entities:
     - sensor.marie_temperature
-    - sensor.marie_humidity
+    - sensor.marie_luftfeuchtigkeit
     - sensor.marie_lacrosse_battery
     - climate.thermostat_marie
+    - device_tracker.marie_firetv
 
 jakob:
   name: Jakob
   entities:
     - sensor.jakob_temperature
-    - sensor.jakob_humidity
+    - sensor.jakob_luftfeuchtigkeit
     - sensor.jakob_lacrosse_battery
     - climate.thermostat_jakob
 
@@ -145,7 +159,7 @@ paulina:
   name: Paulina
   entities:
     - sensor.paulina_temperature
-    - sensor.paulina_humidity
+    - sensor.paulina_luftfeuchtigkeit
     - sensor.paulina_lacrosse_battery
     - climate.thermostat_paulina
 
@@ -153,14 +167,14 @@ schlafzimmer:
   name: Schlafzimmer
   entities:
     - sensor.schlafzimmer_temperature
-    - sensor.schlafzimmer_humidity
+    - sensor.schlafzimmer_luftfeuchtigkeit
     - sensor.schlafzimmer_lacrosse_battery
 
 badezimmer:
   name: Badezimmer
   entities:
     - sensor.badezimmer_temperature
-    - sensor.badezimmer_humidity
+    - sensor.badezimmer_luftfeuchtigkeit
     - sensor.badezimmer_lacrosse_battery
     - climate.thermostat_badezimmer
 
