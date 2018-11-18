@@ -1,0 +1,66 @@
+- alias: 'Gäste WC Fenster Auf Meldung'
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: binary_sensor.wc_fenster
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 15
+      seconds: 0
+
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: binary_sensor.wc_fenster
+        state: 'on'
+      - condition: template
+        value_template: "{{ not is_state_attr('climate.thermostat_wc_heizung', 'away_mode', 'on') }}"
+
+  action:
+    - service: notify.telegram
+      data:
+        message: "*Gäste WC Fenster* seit 15 Minuten auf!!!"
+    - service: notify.telegram_simone
+      data:
+        message: "*Gäste WC Fenster* seit 15 Minuten auf!!!"
+
+
+- alias: 'Gäste WC Fenster offen'
+  initial_state: True
+
+  trigger:
+    platform: state
+    entity_id: binary_sensor.wc_fenster
+    to: 'on'
+
+  condition:
+    condition: state
+    entity_id: binary_sensor.wc_fenster
+    state: 'on'
+
+  action:
+    - service: climate.set_operation_mode
+      data:
+        entity_id: climate.thermostat_wc_heizung
+        operation_mode: 'off'
+
+- alias: 'Gäste WC Fenster geschlossen'
+  initial_state: True
+
+  trigger:
+    platform: state
+    entity_id: binary_sensor.wc_fenster
+    to: 'off'
+
+  condition:
+    condition: state
+    entity_id: binary_sensor.wc_fenster
+    state: 'off'
+
+  action:
+    - service: climate.set_operation_mode
+      data:
+        entity_id: climate.thermostat_wc_heizung
+        operation_mode: 'heat'

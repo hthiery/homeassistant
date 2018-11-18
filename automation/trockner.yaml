@@ -1,0 +1,27 @@
+- alias: 'Trockner ist fertig'
+  initial_state: True
+  trigger:
+    platform: state
+    entity_id: sensor.status_trockner
+    from: 'Trocknet'
+    to: 'Fertig'
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 5
+
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: sensor.status_trockner
+        state: 'Fertig'
+
+  action:
+    - service: notify.telegram
+      data:
+        message: "*Trockner* ist fertig!!!"
+    - service: notify.telegram_simone
+      data:
+        message: "*Trockner* ist fertig!!!"
+#        message: "*Gäste WC Fenster* seit 15 Minuten auf!!!"
